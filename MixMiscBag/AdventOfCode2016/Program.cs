@@ -10,7 +10,8 @@ namespace AdventOfCode2016
     {
         static void Main(string[] args)
         {
-            AdventParser parser = new AdventParser(@"C:\Code\MixMiscBag\MixMiscBag\AdventOfCode2016\Input\");
+
+            AdventParser parser = new AdventParser(@"..\..\Input\");
 
             var problem = new Day1(parser);
             problem.PrintSolution();
