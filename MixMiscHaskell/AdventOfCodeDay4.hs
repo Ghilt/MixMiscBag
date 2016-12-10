@@ -17,17 +17,43 @@ toValidAtIndexList :: [(Int, Char)] -> [[Char]]
 toValidAtIndexList listOfTuple = map getValidAtThisPos listOfTuple
     where getValidAtThisPos tuple = map (\f -> snd f) (filter ((\z (x,y) -> x == z) (fst tuple)) listOfTuple)
 
-validateRoom :: ([String], Int, [Char]) -> Int
-validateRoom (a,b,c) = if isValidRoom c $ toValidAtIndexList (countLetters $ concat a) then b else 0
+filterValidRooms :: [([String], Int, [Char])] -> [([String], Int, [Char])]
+filterValidRooms a = filter isValidRoom a
 
-isValidRoom :: [Char] -> [[Char]] -> Bool
-isValidRoom expected actual = all isValid (zip expected actual)
+sumRoomSectorID :: [([String], Int, [Char])] -> Int
+sumRoomSectorID list = sum (map sectorId list)
+    where sectorId (_,b,_) = b
+
+isValidRoom :: ([String], Int, [Char]) -> Bool
+isValidRoom (a,b,c) = lettersMatch c $ toValidAtIndexList (countLetters $ concat a)
+
+lettersMatch :: [Char] -> [[Char]] -> Bool
+lettersMatch expected actual = all isValid (zip expected actual)
     where isValid (c, possible) = any (== c) possible
+
+decipherRooms :: ([String], Int, [Char]) -> ([String], Int, [Char])
+decipherRooms (a,b,c) = (map shiftIt a,b,c)
+    where shiftIt x = map (shiftCipher b) x
+
+shiftCipher ::  Int -> Char -> Char
+shiftCipher x c = (iterate alphaMod c) !! x
+
+alphaMod :: Char -> Char
+alphaMod c 
+        | c == 'z' = 'a'
+        | otherwise = succ c
+
+containsNorth :: ([String], Int, [Char]) -> Bool
+containsNorth (a,b,c) = isInfixOf "north" (concat a)
 
 main = do  
     putStrLn "Start..."  
     contents <- readFile "input/day4.txt" 
     let linesOfFile = lines contents
     let rooms = map extractRoom linesOfFile
-    let result = map validateRoom rooms
-    putStrLn $ "Real rooms: " ++ show ( sum result)
+    let validRooms = filterValidRooms rooms
+    let result = sumRoomSectorID validRooms
+    let decipheredRooms = map decipherRooms rooms
+    let northPole = find containsNorth decipheredRooms
+    putStrLn $ "Real rooms: " ++ show (result)
+    putStrLn $ "Northpole Objects: " ++ show(northPole)
