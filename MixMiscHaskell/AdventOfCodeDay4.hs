@@ -14,15 +14,13 @@ countLetters a = reverse $ sort $ nub $ map countSpecificChar a
     where countSpecificChar x = (length (filter (== x) a), x)
 
 toValidAtIndexList :: [(Int, Char)] -> [[Char]]
-toValidAtIndexList listOfTuple = map getValidAtThisPos listOfTuple
-    where getValidAtThisPos tuple = map (\f -> snd f) (filter ((\z (x,y) -> x == z) (fst tuple)) listOfTuple)
+toValidAtIndexList listOfTuple = [[ k | (j,k) <- listOfTuple, a == j ]| (a,_) <- listOfTuple]
 
 filterValidRooms :: [([String], Int, [Char])] -> [([String], Int, [Char])]
 filterValidRooms a = filter isValidRoom a
 
 sumRoomSectorID :: [([String], Int, [Char])] -> Int
-sumRoomSectorID list = sum (map sectorId list)
-    where sectorId (_,b,_) = b
+sumRoomSectorID list = sum [b | (_,b,_) <- list] 
 
 isValidRoom :: ([String], Int, [Char]) -> Bool
 isValidRoom (a,b,c) = lettersMatch c $ toValidAtIndexList (countLetters $ concat a)
@@ -32,8 +30,8 @@ lettersMatch expected actual = all isValid (zip expected actual)
     where isValid (c, possible) = any (== c) possible
 
 decipherRooms :: ([String], Int, [Char]) -> ([String], Int, [Char])
-decipherRooms (a,b,c) = (map shiftIt a,b,c)
-    where shiftIt x = map (shiftCipher b) x
+decipherRooms (a,b,c) = (nlc,b,c)
+    where nlc = [[ shiftCipher b letter | letter <- parts] | parts <- a]  
 
 shiftCipher ::  Int -> Char -> Char
 shiftCipher x c = (iterate alphaMod c) !! x
