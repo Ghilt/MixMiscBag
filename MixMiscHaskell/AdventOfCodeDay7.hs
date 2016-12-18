@@ -27,3 +27,9 @@ main = do
     let countViable = length viable
     putStrLn $ "Supports TLS: " ++ show( countViable ) 
 
+-- Regexes for problem two, finds 127+131=258 
+-- 
+-- Finds all with initial ABA before the BAB
+-- (^|^.*\])[^\[\n]*([a-z])((?!\2).)\2.*\[[^\]\n]*\3\2\3.*$
+-- Finds all with BAB before ABA
+-- ^.*\[[^\]\n]*([a-z])((?!\1).)\1[^\[\n]*\](.*\])?[^\[\n]*\2\1\2.*$
