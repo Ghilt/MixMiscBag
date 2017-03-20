@@ -35,7 +35,6 @@ namespace Sandpiles3D
             this.presenter = presenter;
             space = new int[1, 1];
             InitializeComponent();
-            bmp = new Bitmap(1, 1);
         }
 
         internal void updatePerformanceCounter(String text)
@@ -53,8 +52,27 @@ namespace Sandpiles3D
             iterationCounterTextBox.Text = iterationCounter;
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
+        internal void ToggleStartToggleButton(String text)
         {
+            startButton.Text = text;
+        }
+
+        public void DrawSandpiles(int[,] space)
+        {
+            //if (bmp == null)
+            //{
+            //    bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
+            //    renderArea.Image = bmp;
+            //    //renderArea.SizeMode = PictureBoxSizeMode.StretchImage;
+            //}
+            if (bmp != null)
+            {
+                bmp.Dispose();
+            }
+
+            bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
+
+            this.space = space;
             for (int x = 0; x < space.GetLength(0); x++)
             {
                 for (int y = 0; y < space.GetLength(1); y++)
@@ -69,34 +87,8 @@ namespace Sandpiles3D
                     }
                 }
             }
-            using (var graphics = Graphics.FromImage(bmp))
-            {
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-            }
-            //renderArea.Image = ResizeImage(bmp, ZOOM_ENLARGE, ZOOM_ENLARGE);
-            renderArea.SizeMode = PictureBoxSizeMode.StretchImage;
+            bmp = ResizeImage(bmp, renderArea.Width, renderArea.Height);
             renderArea.Image = bmp;
-        }
-
-        internal void ToggleStartToggleButton(String text)
-        {
-            startButton.Text = text;
-        }
-
-        public void DrawSandpiles(int[,] space)
-        {
-            if (bmp.Height == 1)
-            {
-                bmp.Dispose();
-                bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
-            }
-            this.space = space;
             Refresh();
         }
 
@@ -127,6 +119,7 @@ namespace Sandpiles3D
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
                 }
             }
+            image.Dispose();
             return destImage;
         }
 
