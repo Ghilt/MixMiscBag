@@ -59,12 +59,7 @@ namespace Sandpiles3D
 
         public void DrawSandpiles(int[,] space)
         {
-            //if (bmp == null)
-            //{
-            //    bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
-            //    renderArea.Image = bmp;
-            //    //renderArea.SizeMode = PictureBoxSizeMode.StretchImage;
-            //}
+
             if (bmp != null)
             {
                 bmp.Dispose();
@@ -87,7 +82,8 @@ namespace Sandpiles3D
                     }
                 }
             }
-            bmp = ResizeImage(bmp, renderArea.Width, renderArea.Height);
+            int picSize = renderArea.Width > renderArea.Height ? renderArea.Width : renderArea.Height;
+            bmp = ResizeImage(bmp, picSize, picSize);
             renderArea.Image = bmp;
             Refresh();
         }
@@ -97,7 +93,7 @@ namespace Sandpiles3D
             presenter.OnIterateButton();
         }
 
-        public static Bitmap ResizeImage(Bitmap image, int width, int height) // leaky/ineffiecient
+        public static Bitmap ResizeImage(Bitmap image, int width, int height)
         {
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);

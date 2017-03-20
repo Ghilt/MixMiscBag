@@ -11,7 +11,7 @@ namespace Sandpiles3D
     {
 
 
-        private const int CROSS_SECTION_TARGET = 25;
+        private const int CROSS_SECTION_TARGET = 100;
         private const int SIZE = CROSS_SECTION_TARGET * 2;
         private const int POS_MIDDLE = CROSS_SECTION_TARGET * 2;
 
@@ -27,7 +27,7 @@ namespace Sandpiles3D
             model.SetPosition(CROSS_SECTION_TARGET / 4, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, 10);
 
             model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
-            model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 8);
+            model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 9);
             bw.DoWork += PerformIteration;
             bw.RunWorkerCompleted += IterationFinished;
         }

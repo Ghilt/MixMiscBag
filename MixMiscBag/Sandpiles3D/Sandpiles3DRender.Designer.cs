@@ -40,7 +40,8 @@
             // 
             this.renderArea.Location = new System.Drawing.Point(226, 12);
             this.renderArea.Name = "renderArea";
-            this.renderArea.Size = new System.Drawing.Size(432, 415);
+            this.renderArea.Size = new System.Drawing.Size(743, 604);
+            this.renderArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.renderArea.TabIndex = 0;
             this.renderArea.TabStop = false;
             // 
@@ -56,7 +57,7 @@
             // 
             // textBoxPerfromance
             // 
-            this.textBoxPerfromance.Location = new System.Drawing.Point(557, 434);
+            this.textBoxPerfromance.Location = new System.Drawing.Point(869, 622);
             this.textBoxPerfromance.Name = "textBoxPerfromance";
             this.textBoxPerfromance.Size = new System.Drawing.Size(100, 20);
             this.textBoxPerfromance.TabIndex = 2;
@@ -73,7 +74,7 @@
             // 
             // iterationCounterTextBox
             // 
-            this.iterationCounterTextBox.Location = new System.Drawing.Point(226, 434);
+            this.iterationCounterTextBox.Location = new System.Drawing.Point(741, 622);
             this.iterationCounterTextBox.Name = "iterationCounterTextBox";
             this.iterationCounterTextBox.Size = new System.Drawing.Size(100, 20);
             this.iterationCounterTextBox.TabIndex = 4;
@@ -82,7 +83,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(733, 493);
+            this.ClientSize = new System.Drawing.Size(1035, 713);
             this.Controls.Add(this.iterationCounterTextBox);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.textBoxPerfromance);
