@@ -24,7 +24,10 @@ namespace Sandpiles3D
         {
             model = new SandpilesCalculator(SIZE / 4, SIZE, SIZE);
             model.FillMax();
-            model.SetPosition(CROSS_SECTION_TARGET / 4, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, 9);
+            model.SetPosition(CROSS_SECTION_TARGET / 4, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, 10);
+
+            model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
+            model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 8);
             bw.DoWork += PerformIteration;
             bw.RunWorkerCompleted += IterationFinished;
         }

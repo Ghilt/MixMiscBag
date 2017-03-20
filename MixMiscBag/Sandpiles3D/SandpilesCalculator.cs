@@ -55,7 +55,6 @@ namespace Sandpiles3D
                         if (space[x, y, z] > MAX_AMOUNT)
                         {
                             Collapse(x, y, z);
-                            //Console.WriteLine("Collapse: " + x + ", " + y + ", " + z);
                         }
                     }
                 }
@@ -66,9 +65,7 @@ namespace Sandpiles3D
                 {
                     for (int z = 0; z < space.GetLength(2); z++)
                     {
-
                         space[x, y, z] += delta[x, y, z];
-
                     }
                 }
             }
@@ -88,16 +85,12 @@ namespace Sandpiles3D
 
         private void AddDelta(int x, int y, int z)
         {
-            try
-            {
-                delta[x, y, z]++;
+            if(x < 0 || y < 0 || z < 0){
+                return;
+            } else if(x >= width || y >= height || z >= depth){
+                return;
             }
-            catch (IndexOutOfRangeException e)
-            {
-                Console.WriteLine("Out of bounds: " + x + ", " + y + ", " + z);
-                //Do nothing, is this an extremely ugly way of doing things? it does not feel right but it saves many lines of error prone code. . .
-                //The clean way would have to be found some other day
-            }
+            delta[x, y, z]++;
         }
 
         public int[,] GetCrossSection(int position, bool xDim, bool yDim, bool zDim)
