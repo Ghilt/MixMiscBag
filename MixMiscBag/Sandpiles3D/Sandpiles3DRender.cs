@@ -88,6 +88,29 @@ namespace Sandpiles3D
             Refresh();
         }
 
+        public void DrawSandpiles(Color[,] projection)
+        {
+
+            if (bmp != null)
+            {
+                bmp.Dispose();
+            }
+
+            bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
+
+            for (int x = 0; x < space.GetLength(0); x++)
+            {
+                for (int y = 0; y < space.GetLength(1); y++)
+                {
+                    bmp.SetPixel(x, y, projection[x, y]);
+                }
+            }
+            int picSize = renderArea.Width > renderArea.Height ? renderArea.Width : renderArea.Height;
+            bmp = ResizeImage(bmp, picSize, picSize);
+            renderArea.Image = bmp;
+            Refresh();
+        }
+
         private void iterate_Button_Click(object sender, EventArgs e)
         {
             presenter.OnIterateButton();

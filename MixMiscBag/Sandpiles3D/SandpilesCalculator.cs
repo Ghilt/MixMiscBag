@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,12 +11,12 @@ namespace Sandpiles3D
     {
         private const int MAX_AMOUNT = 6;
 
-        private int[,,] space;
-        private int[,,] delta;
+        private int[, ,] space;
+        private int[, ,] delta;
         private int width;
         private int height;
         private int depth;
-        public int iterationCounter { get; private set;}
+        public int iterationCounter { get; private set; }
 
         public SandpilesCalculator(int width, int height, int depth)
         {
@@ -46,11 +47,11 @@ namespace Sandpiles3D
         public void Iterate()
         {
             delta = new int[width, height, depth];
-            for (int x = 0; x < space.GetLength(0); x++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < space.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
-                    for (int z = 0; z < space.GetLength(2); z++)
+                    for (int z = 0; z < depth; z++)
                     {
                         if (space[x, y, z] > MAX_AMOUNT)
                         {
@@ -59,11 +60,11 @@ namespace Sandpiles3D
                     }
                 }
             }
-            for (int x = 0; x < space.GetLength(0); x++)
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 0; y < space.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
-                    for (int z = 0; z < space.GetLength(2); z++)
+                    for (int z = 0; z < depth; z++)
                     {
                         space[x, y, z] += delta[x, y, z];
                     }
@@ -85,9 +86,12 @@ namespace Sandpiles3D
 
         private void AddDelta(int x, int y, int z)
         {
-            if(x < 0 || y < 0 || z < 0){
+            if (x < 0 || y < 0 || z < 0)
+            {
                 return;
-            } else if(x >= width || y >= height || z >= depth){
+            }
+            else if (x >= width || y >= height || z >= depth)
+            {
                 return;
             }
             delta[x, y, z]++;
@@ -102,9 +106,9 @@ namespace Sandpiles3D
             else if (xDim)
             {
                 int[,] crossSection = new int[height, depth];
-                for (int y = 0; y < space.GetLength(1); y++)
+                for (int y = 0; y < height; y++)
                 {
-                    for (int z = 0; z < space.GetLength(2); z++)
+                    for (int z = 0; z < depth; z++)
                     {
                         crossSection[y, z] = space[position, y, z];
                     }
@@ -124,11 +128,51 @@ namespace Sandpiles3D
                 throw new NotImplementedException();
             }
         }
+
+        internal Color[,] Get2DProjection()
+        {
+            Color[,] projection = new Color[height, depth];
+            float[, ,] flatten = new float[height, depth, 3];
+
+            float biggestValue = 0;
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    for (int z = 0; z < depth; z++)
+                    {
+                        float rMult = z / (float)depth; // only do these once each
+                        float gMult = (depth - z - 1) / (float)depth;
+                        flatten[x, y, 0] += space[x, y, z] * rMult;
+                        flatten[x, y, 1] += space[x, y, z] * gMult;
+                    }
+                    if (flatten[x, y, 0] > biggestValue)
+                    {
+                        biggestValue = flatten[x, y, 0];
+                    }
+                    if (flatten[x, y, 1] > biggestValue)
+                    {
+                        biggestValue = flatten[x, y, 1];
+                    }
+                }
+            }
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    int r = (int)(100* flatten[x, y, 0] / biggestValue);
+                    int g = (int)(100* flatten[x, y, 1] / biggestValue);
+                    projection[x, y] = Color.FromArgb(r, g, 50);
+                }
+            }
+            return projection;
+        }
     }
 
     public static class ArrayExtensions
     {
-        public static void Fill<T>(this T[,,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
+        public static void Fill<T>(this T[, ,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
         {
             for (int x = 0; x < originalArray.GetLength(0); x++)
             {
