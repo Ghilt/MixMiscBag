@@ -22,19 +22,22 @@ namespace Sandpiles3D
 
         public Presenter()
         {
-            model = new SandpilesCalculator(SIZE, SIZE, SIZE / 4);
+            model = new SandpilesCalculator(81, 81, 81);
             model.FillMax();
-            model.SetPosition(CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET / 4, 9);
+            model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 1000);
+            model.SetPosition(0, 0, 0, 1000);
+            model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 1000);
 
             //model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
             //model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 9);
             //model.SetPosition(0, 0, 0, 8);
             //model.SetPosition(SIZE - 1, 0, (SIZE / 4) - 1, 8);
-            //model.SetPosition(SIZE - 1, SIZE - 1, 0, 8);
+            //model.SetPosition(SIZE - 1, SIZE - 1, 0, 9);
             //model.SetPosition(SIZE - 1, SIZE - 1, (SIZE / 4) - 1, 8);
-            model.SetPosition(6, 46, 6, 9);
-            model.SetPosition(46, 6, 6, 29);
-            model.SetPosition(SIZE - 5, SIZE - 5, SIZE/4 - 5, 9);
+            //model.SetPosition(6, 46, 6, 9);
+            //model.SetPosition(46, 6, 6, 9);
+            //model.SetPosition(SIZE - 1, SIZE - 1, SIZE / 4 - 1, 7);
+            //model.SetPosition(0, 0, 0, 7);
 
             bw.DoWork += PerformIteration;
             bw.RunWorkerCompleted += IterationFinished;
@@ -50,7 +53,7 @@ namespace Sandpiles3D
         {
             view.updatePerformanceCounter(lastIterationDuration + "");
             //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
-            view.DrawSandpiles(model.Get2DProjection()); 
+            view.DrawSandpiles(model.Get2DProjection());
             view.SetIterateButtonEnabled(true);
             view.SetIterationCounter(model.iterationCounter + "");
         }

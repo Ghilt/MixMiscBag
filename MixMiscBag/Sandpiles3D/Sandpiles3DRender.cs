@@ -14,8 +14,6 @@ namespace Sandpiles3D
 {
     public partial class Sandpiles3DRender : Form
     {
-        private const int ZOOM_ENLARGE = 2000;
-
         private int[,] space;
         private Presenter presenter;
         private Bitmap bmp;
@@ -97,6 +95,7 @@ namespace Sandpiles3D
             }
 
             bmp = new Bitmap(projection.GetLength(0), projection.GetLength(1));
+            bmp.SetResolution(projection.GetLength(0), projection.GetLength(1));
 
             for (int x = 0; x < bmp.Width; x++)
             {

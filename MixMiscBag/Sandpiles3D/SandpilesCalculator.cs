@@ -13,9 +13,9 @@ namespace Sandpiles3D
 
         private int[, ,] space;
         private int[, ,] delta;
-        private int width;
-        private int height;
-        private int depth;
+        public int width { get; private set; }
+        public int height { get; private set; }
+        public int depth { get; private set; }
         public int iterationCounter { get; private set; }
 
         public SandpilesCalculator(int width, int height, int depth)
@@ -75,7 +75,7 @@ namespace Sandpiles3D
 
         private void Collapse(int x, int y, int z)
         {
-            delta[x, y, z] = -MAX_AMOUNT;
+            delta[x, y, z] += -MAX_AMOUNT;
             AddDelta(x - 1, y, z);
             AddDelta(x + 1, y, z);
             AddDelta(x, y - 1, z);
@@ -139,11 +139,13 @@ namespace Sandpiles3D
             float[] biggestValue = new float[dims];
 
             float[,] multipliers = new float[depth, dims];
+            float depthF = depth;
+            float midPoint = depthF / 2;
             for (int z = 0; z < depth; z++)
             {
-                multipliers[z, 0] = z / (float)depth;
-                multipliers[z, 1] = (depth - z) / (float)depth;
-                multipliers[z, 2] = 1 - ((depth / 2 - z) / (float)depth / 2);
+                multipliers[z, 0] = z / depthF;
+                multipliers[z, 1] = (depthF - z) / depthF;
+                multipliers[z, 2] = 1 - Math.Abs((1 - z / midPoint));
             }
             for (int x = 0; x < width; x++)
             {
@@ -174,13 +176,30 @@ namespace Sandpiles3D
                 {
                     for (int d = 0; d < dims; d++)
                     {
-                        flatten[x, y, d] = (flatten[x, y, d] / biggestValue[d]) * 250;
+                        //flatten[x, y, d] = (flatten[x, y, d] / biggestValue[d]) * 255;
+                        flatten[x, y, d] = (flatten[x, y, d] / biggestValue.Max()) * 255;
                     }
                     projection[x, y] = Color.FromArgb((int)flatten[x, y, 0], (int)flatten[x, y, 1], (int)flatten[x, y, 2]);
                 }
             }
             return projection;
         }
+
+        internal int getMidX()
+        {
+            return width / 2;
+        }
+
+        internal int getMidY()
+        {
+            return height / 2;
+        }
+
+        internal int getMidZ()
+        {
+            return depth / 2;
+        }
+
     }
 
     public static class ArrayExtensions
