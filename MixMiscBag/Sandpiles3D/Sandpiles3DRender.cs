@@ -68,9 +68,9 @@ namespace Sandpiles3D
             bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
 
             this.space = space;
-            for (int x = 0; x < space.GetLength(0); x++)
+            for (int x = 0; x < bmp.Width; x++)
             {
-                for (int y = 0; y < space.GetLength(1); y++)
+                for (int y = 0; y < bmp.Height; y++)
                 {
                     if (space[x, y] >= 7)
                     {
@@ -96,11 +96,11 @@ namespace Sandpiles3D
                 bmp.Dispose();
             }
 
-            bmp = new Bitmap(space.GetLength(0), space.GetLength(1));
+            bmp = new Bitmap(projection.GetLength(0), projection.GetLength(1));
 
-            for (int x = 0; x < space.GetLength(0); x++)
+            for (int x = 0; x < bmp.Width; x++)
             {
-                for (int y = 0; y < space.GetLength(1); y++)
+                for (int y = 0; y < bmp.Height; y++)
                 {
                     bmp.SetPixel(x, y, projection[x, y]);
                 }

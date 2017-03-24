@@ -11,7 +11,7 @@ namespace Sandpiles3D
     {
 
 
-        private const int CROSS_SECTION_TARGET = 100;
+        private const int CROSS_SECTION_TARGET = 65;
         private const int SIZE = CROSS_SECTION_TARGET * 2;
         private const int POS_MIDDLE = CROSS_SECTION_TARGET * 2;
 
@@ -22,12 +22,20 @@ namespace Sandpiles3D
 
         public Presenter()
         {
-            model = new SandpilesCalculator(SIZE / 4, SIZE, SIZE);
+            model = new SandpilesCalculator(SIZE, SIZE, SIZE / 4);
             model.FillMax();
-            model.SetPosition(CROSS_SECTION_TARGET / 4, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, 9);
+            model.SetPosition(CROSS_SECTION_TARGET, CROSS_SECTION_TARGET, CROSS_SECTION_TARGET / 4, 9);
 
-            model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
-            model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 9);
+            //model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
+            //model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 9);
+            //model.SetPosition(0, 0, 0, 8);
+            //model.SetPosition(SIZE - 1, 0, (SIZE / 4) - 1, 8);
+            //model.SetPosition(SIZE - 1, SIZE - 1, 0, 8);
+            //model.SetPosition(SIZE - 1, SIZE - 1, (SIZE / 4) - 1, 8);
+            model.SetPosition(6, 46, 6, 9);
+            model.SetPosition(46, 6, 6, 29);
+            model.SetPosition(SIZE - 5, SIZE - 5, SIZE/4 - 5, 9);
+
             bw.DoWork += PerformIteration;
             bw.RunWorkerCompleted += IterationFinished;
         }
@@ -41,8 +49,8 @@ namespace Sandpiles3D
         internal void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
         {
             view.updatePerformanceCounter(lastIterationDuration + "");
-            view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
-            view.DrawSandpiles(model.Get2DProjection());    //double draw . . . very 'flashy'
+            //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
+            view.DrawSandpiles(model.Get2DProjection()); 
             view.SetIterateButtonEnabled(true);
             view.SetIterationCounter(model.iterationCounter + "");
         }

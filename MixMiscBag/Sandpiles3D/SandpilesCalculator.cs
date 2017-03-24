@@ -131,29 +131,47 @@ namespace Sandpiles3D
 
         internal Color[,] Get2DProjection()
         {
-            Color[,] projection = new Color[height, depth];
-            float[, ,] flatten = new float[height, depth, 3];
+            Color[,] projection = new Color[height, width];
+            float[, ,] flatten = new float[height, width, 3];
 
-            float biggestValue = 0;
+            float[] biggestValue = new float[3];
 
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    for (int z = 0; z < depth; z++)
+                    int lastValue = space[x, y, 0];
+                    for (int z = 1; z < depth; z++)
                     {
+                        int difference = Math.Abs(lastValue - space[x, y, z]);
                         float rMult = z / (float)depth; // only do these once each
-                        float gMult = (depth - z - 1) / (float)depth;
-                        flatten[x, y, 0] += space[x, y, z] * rMult;
-                        flatten[x, y, 1] += space[x, y, z] * gMult;
+                        float gMult = (depth - z) / (float)depth;
+                        float bMult = 1 - ((depth/2 - z) / (float)depth/2);
+
+                        if (z < depth / 2)
+                        {
+                            rMult = 0;
+                        }
+                        if (z > depth / 2)
+                        {
+                            gMult = 0;
+                        }
+
+                        flatten[x, y, 0] += difference * rMult;
+                        flatten[x, y, 1] += difference * gMult;
+                        flatten[x, y, 2] += difference * bMult;
                     }
-                    if (flatten[x, y, 0] > biggestValue)
+                    if (flatten[x, y, 0] > biggestValue[0])
                     {
-                        biggestValue = flatten[x, y, 0];
+                        biggestValue[0] = flatten[x, y, 0];
                     }
-                    if (flatten[x, y, 1] > biggestValue)
+                    if (flatten[x, y, 1] > biggestValue[1])
                     {
-                        biggestValue = flatten[x, y, 1];
+                        biggestValue[1] = flatten[x, y, 1];
+                    }
+                    if (flatten[x, y, 2] > biggestValue[2])
+                    {
+                        biggestValue[2] = flatten[x, y, 2];
                     }
                 }
             }
@@ -161,9 +179,10 @@ namespace Sandpiles3D
             {
                 for (int y = 0; y < height; y++)
                 {
-                    int r = (int)(100* flatten[x, y, 0] / biggestValue);
-                    int g = (int)(100* flatten[x, y, 1] / biggestValue);
-                    projection[x, y] = Color.FromArgb(r, g, 50);
+                    flatten[x, y, 0] = (flatten[x, y, 0] / biggestValue[0]) * 250;
+                    flatten[x, y, 1] = (flatten[x, y, 1] / biggestValue[1]) * 250;
+                    flatten[x, y, 2] = (flatten[x, y, 2] / biggestValue[2]) * 250;
+                    projection[x, y] = Color.FromArgb((int)flatten[x, y, 0], (int)flatten[x, y, 1], (int)flatten[x, y, 2]);
                 }
             }
             return projection;

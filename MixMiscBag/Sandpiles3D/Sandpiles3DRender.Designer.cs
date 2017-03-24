@@ -38,9 +38,9 @@
             // 
             // renderArea
             // 
-            this.renderArea.Location = new System.Drawing.Point(226, 12);
+            this.renderArea.Location = new System.Drawing.Point(365, 12);
             this.renderArea.Name = "renderArea";
-            this.renderArea.Size = new System.Drawing.Size(743, 604);
+            this.renderArea.Size = new System.Drawing.Size(604, 604);
             this.renderArea.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.renderArea.TabIndex = 0;
             this.renderArea.TabStop = false;
