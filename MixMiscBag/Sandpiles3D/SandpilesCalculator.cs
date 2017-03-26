@@ -11,8 +11,10 @@ namespace Sandpiles3D
     {
         private const int MAX_AMOUNT = 6;
 
-        private int[, ,] space;
-        private int[, ,] delta;
+        private int[,,] space;
+        private int[,,] delta;
+        private float[,] multipliers;
+
         public int width { get; private set; }
         public int height { get; private set; }
         public int depth { get; private set; }
@@ -26,6 +28,16 @@ namespace Sandpiles3D
             this.depth = depth;
             this.space = new int[width, height, depth];
             this.delta = new int[width, height, depth];
+
+            float depthF = depth - 1;
+            float midPoint = depthF / 2;
+            multipliers = new float[depth, 3];
+            for (int z = 0; z < depth; z++)
+            {
+                multipliers[z, 0] = z / depthF;
+                multipliers[z, 1] = (depthF - z) / depthF;
+                multipliers[z, 2] = 1 - Math.Abs((1 - z / midPoint));
+            }
         }
 
         public void Fill(int value)
@@ -134,31 +146,23 @@ namespace Sandpiles3D
             int dims = 3;
 
             Color[,] projection = new Color[height, width];
-            float[, ,] flatten = new float[height, width, dims];
+            float[,,] flatten = new float[height, width, dims];
 
             float[] biggestValue = new float[dims];
 
-            float[,] multipliers = new float[depth, dims];
-            float depthF = depth;
-            float midPoint = depthF / 2;
-            for (int z = 0; z < depth; z++)
-            {
-                multipliers[z, 0] = z / depthF;
-                multipliers[z, 1] = (depthF - z) / depthF;
-                multipliers[z, 2] = 1 - Math.Abs((1 - z / midPoint));
-            }
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
                     int lastValue = space[x, y, 0];
-                    for (int z = 1; z < depth; z++)
+                    for (int z = 1; z < depth; z++) //difference counted in one direction, minor source of assymetry
                     {
                         int difference = Math.Abs(lastValue - space[x, y, z]);
                         for (int d = 0; d < dims; d++)
                         {
                             flatten[x, y, d] += difference * multipliers[z, d];
                         }
+                        lastValue = space[x, y, z];
                     }
 
                     for (int d = 0; d < dims; d++)
@@ -204,7 +208,7 @@ namespace Sandpiles3D
 
     public static class ArrayExtensions
     {
-        public static void Fill<T>(this T[, ,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
+        public static void Fill<T>(this T[,,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
         {
             for (int x = 0; x < originalArray.GetLength(0); x++)
             {

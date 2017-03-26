@@ -11,10 +11,6 @@ namespace Sandpiles3D
     {
 
 
-        private const int CROSS_SECTION_TARGET = 65;
-        private const int SIZE = CROSS_SECTION_TARGET * 2;
-        private const int POS_MIDDLE = CROSS_SECTION_TARGET * 2;
-
         private long lastIterationDuration;
         private SandpilesCalculator model;
         private Sandpiles3DRender view;
@@ -22,21 +18,20 @@ namespace Sandpiles3D
 
         public Presenter()
         {
-            model = new SandpilesCalculator(81, 81, 81);
+            int size = 101;
+            model = new SandpilesCalculator(size, size, size);
             model.FillMax();
-            model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 1000);
-            model.SetPosition(0, 0, 0, 1000);
-            model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 1000);
+            //model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
+            //model.SetPosition(0, 0, model.depth - 1, 20);
+            //model.SetPosition(model.width - 1, model.height - 1, 0, 20);
 
-            //model.SetPosition(SIZE / 8 - 5, 0, 0, 8);
-            //model.SetPosition(SIZE / 8 + 5, SIZE - 1, SIZE - 1, 9);
             //model.SetPosition(0, 0, 0, 8);
-            //model.SetPosition(SIZE - 1, 0, (SIZE / 4) - 1, 8);
-            //model.SetPosition(SIZE - 1, SIZE - 1, 0, 9);
-            //model.SetPosition(SIZE - 1, SIZE - 1, (SIZE / 4) - 1, 8);
+            //model.SetPosition(model.width - 1, 0, model.depth - 1, 8);
+            //model.SetPosition(model.width - 1, model.height - 1, 0, 9);
+            //model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 8);
             //model.SetPosition(6, 46, 6, 9);
             //model.SetPosition(46, 6, 6, 9);
-            //model.SetPosition(SIZE - 1, SIZE - 1, SIZE / 4 - 1, 7);
+            //model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 11);
             //model.SetPosition(0, 0, 0, 7);
 
             bw.DoWork += PerformIteration;
