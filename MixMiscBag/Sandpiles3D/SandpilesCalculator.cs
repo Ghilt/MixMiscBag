@@ -11,8 +11,8 @@ namespace Sandpiles3D
     {
         private const int MAX_AMOUNT = 6;
 
-        private int[,,] space;
-        private int[,,] delta;
+        private int[, ,] space;
+        private int[, ,] delta;
         private float[,] multipliers;
 
         public int width { get; private set; }
@@ -145,8 +145,7 @@ namespace Sandpiles3D
         {
             int dims = 3;
 
-            Color[,] projection = new Color[height, width];
-            float[,,] flatten = new float[height, width, dims];
+            float[, ,] flatten = new float[height, width, dims];
 
             float[] biggestValue = new float[dims];
 
@@ -174,6 +173,13 @@ namespace Sandpiles3D
                     }
                 }
             }
+
+            if (biggestValue.Max() == 0)
+            {
+                return NoDataColorMatrix();
+            }
+            Color[,] projection = new Color[height, width];
+            float normalize = biggestValue.Max();
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -181,7 +187,7 @@ namespace Sandpiles3D
                     for (int d = 0; d < dims; d++)
                     {
                         //flatten[x, y, d] = (flatten[x, y, d] / biggestValue[d]) * 255;
-                        flatten[x, y, d] = (flatten[x, y, d] / biggestValue.Max()) * 255;
+                        flatten[x, y, d] = (flatten[x, y, d] / normalize) * 255;
                     }
                     projection[x, y] = Color.FromArgb((int)flatten[x, y, 0], (int)flatten[x, y, 1], (int)flatten[x, y, 2]);
                 }
@@ -204,11 +210,23 @@ namespace Sandpiles3D
             return depth / 2;
         }
 
+        private Color[,] NoDataColorMatrix()
+        {
+            Color[,] projection = new Color[height, width];
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    projection[x, y] = Color.FromArgb((30 + x) % 250, y % 250, (x + y) % 250);
+                }
+            }
+            return projection;
+        }
     }
 
     public static class ArrayExtensions
     {
-        public static void Fill<T>(this T[,,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
+        public static void Fill<T>(this T[, ,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
         {
             for (int x = 0; x < originalArray.GetLength(0); x++)
             {

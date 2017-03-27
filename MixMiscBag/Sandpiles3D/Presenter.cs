@@ -21,7 +21,7 @@ namespace Sandpiles3D
             int size = 101;
             model = new SandpilesCalculator(size, size, size);
             model.FillMax();
-            //model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
+            model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
             //model.SetPosition(0, 0, model.depth - 1, 20);
             //model.SetPosition(model.width - 1, model.height - 1, 0, 20);
 
