@@ -39,23 +39,26 @@
             this.iterationsCountLabel = new System.Windows.Forms.Label();
             this.iterationDurationLabel = new System.Windows.Forms.Label();
             this.advancedSetupLabel = new System.Windows.Forms.Label();
-            this.setXTrackBar = new System.Windows.Forms.TrackBar();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.setCoordinateTrackBar = new System.Windows.Forms.TrackBar();
+            this.setXCoordinateTextBox = new System.Windows.Forms.TextBox();
+            this.sizeXTextBox = new System.Windows.Forms.TextBox();
             this.xSizeLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.sizeYTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.sizeZTextBox = new System.Windows.Forms.TextBox();
             this.setYDimensionCheckbox = new System.Windows.Forms.CheckBox();
             this.setZDimensionCheckbox = new System.Windows.Forms.CheckBox();
             this.setXDimensionCheckbox = new System.Windows.Forms.CheckBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.setValueTextBox = new System.Windows.Forms.TextBox();
             this.setValueButton = new System.Windows.Forms.Button();
             this.setValueGroup = new System.Windows.Forms.GroupBox();
+            this.setValueLabel = new System.Windows.Forms.Label();
+            this.setZCoordinateTextBox = new System.Windows.Forms.TextBox();
+            this.setYCoordinateTextBox = new System.Windows.Forms.TextBox();
             this.sizeGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.renderArea)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.setXTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.setCoordinateTrackBar)).BeginInit();
             this.setValueGroup.SuspendLayout();
             this.sizeGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -71,7 +74,7 @@
             // 
             // iterateButton
             // 
-            this.iterateButton.Location = new System.Drawing.Point(22, 509);
+            this.iterateButton.Location = new System.Drawing.Point(19, 570);
             this.iterateButton.Name = "iterateButton";
             this.iterateButton.Size = new System.Drawing.Size(137, 23);
             this.iterateButton.TabIndex = 1;
@@ -88,7 +91,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(165, 509);
+            this.startButton.Location = new System.Drawing.Point(162, 570);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(137, 23);
             this.startButton.TabIndex = 3;
@@ -154,26 +157,27 @@
             this.advancedSetupLabel.TabIndex = 10;
             this.advancedSetupLabel.Text = "Advanced setup(todo)";
             // 
-            // setXTrackBar
+            // setCoordinateTrackBar
             // 
-            this.setXTrackBar.Location = new System.Drawing.Point(45, 29);
-            this.setXTrackBar.Name = "setXTrackBar";
-            this.setXTrackBar.Size = new System.Drawing.Size(235, 45);
-            this.setXTrackBar.TabIndex = 11;
+            this.setCoordinateTrackBar.Location = new System.Drawing.Point(118, 32);
+            this.setCoordinateTrackBar.Name = "setCoordinateTrackBar";
+            this.setCoordinateTrackBar.Size = new System.Drawing.Size(235, 45);
+            this.setCoordinateTrackBar.TabIndex = 11;
             // 
-            // textBox1
+            // setXCoordinateTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(286, 29);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(67, 20);
-            this.textBox1.TabIndex = 12;
+            this.setXCoordinateTextBox.Location = new System.Drawing.Point(45, 19);
+            this.setXCoordinateTextBox.Name = "setXCoordinateTextBox";
+            this.setXCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
+            this.setXCoordinateTextBox.TabIndex = 12;
             // 
-            // textBox4
+            // sizeXTextBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(29, 16);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(67, 20);
-            this.textBox4.TabIndex = 21;
+            this.sizeXTextBox.Location = new System.Drawing.Point(29, 16);
+            this.sizeXTextBox.Name = "sizeXTextBox";
+            this.sizeXTextBox.Size = new System.Drawing.Size(67, 20);
+            this.sizeXTextBox.TabIndex = 21;
+            this.sizeXTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
             // 
             // xSizeLabel
             // 
@@ -195,12 +199,13 @@
             this.label2.TabIndex = 24;
             this.label2.Text = "Y";
             // 
-            // textBox5
+            // sizeYTextBox
             // 
-            this.textBox5.Location = new System.Drawing.Point(29, 42);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(67, 20);
-            this.textBox5.TabIndex = 23;
+            this.sizeYTextBox.Location = new System.Drawing.Point(29, 42);
+            this.sizeYTextBox.Name = "sizeYTextBox";
+            this.sizeYTextBox.Size = new System.Drawing.Size(67, 20);
+            this.sizeYTextBox.TabIndex = 23;
+            this.sizeYTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
             // 
             // label3
             // 
@@ -212,17 +217,18 @@
             this.label3.TabIndex = 26;
             this.label3.Text = "Z";
             // 
-            // textBox6
+            // sizeZTextBox
             // 
-            this.textBox6.Location = new System.Drawing.Point(29, 68);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(67, 20);
-            this.textBox6.TabIndex = 25;
+            this.sizeZTextBox.Location = new System.Drawing.Point(29, 68);
+            this.sizeZTextBox.Name = "sizeZTextBox";
+            this.sizeZTextBox.Size = new System.Drawing.Size(67, 20);
+            this.sizeZTextBox.TabIndex = 25;
+            this.sizeZTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
             // 
             // setYDimensionCheckbox
             // 
             this.setYDimensionCheckbox.AutoSize = true;
-            this.setYDimensionCheckbox.Location = new System.Drawing.Point(6, 42);
+            this.setYDimensionCheckbox.Location = new System.Drawing.Point(7, 47);
             this.setYDimensionCheckbox.Name = "setYDimensionCheckbox";
             this.setYDimensionCheckbox.Size = new System.Drawing.Size(33, 17);
             this.setYDimensionCheckbox.TabIndex = 27;
@@ -232,7 +238,7 @@
             // setZDimensionCheckbox
             // 
             this.setZDimensionCheckbox.AutoSize = true;
-            this.setZDimensionCheckbox.Location = new System.Drawing.Point(6, 65);
+            this.setZDimensionCheckbox.Location = new System.Drawing.Point(7, 73);
             this.setZDimensionCheckbox.Name = "setZDimensionCheckbox";
             this.setZDimensionCheckbox.Size = new System.Drawing.Size(33, 17);
             this.setZDimensionCheckbox.TabIndex = 28;
@@ -242,52 +248,78 @@
             // setXDimensionCheckbox
             // 
             this.setXDimensionCheckbox.AutoSize = true;
-            this.setXDimensionCheckbox.Location = new System.Drawing.Point(6, 19);
+            this.setXDimensionCheckbox.Location = new System.Drawing.Point(7, 21);
             this.setXDimensionCheckbox.Name = "setXDimensionCheckbox";
             this.setXDimensionCheckbox.Size = new System.Drawing.Size(33, 17);
             this.setXDimensionCheckbox.TabIndex = 29;
             this.setXDimensionCheckbox.Text = "X";
             this.setXDimensionCheckbox.UseVisualStyleBackColor = true;
             // 
-            // textBox2
+            // setValueTextBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(143, 80);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(67, 20);
-            this.textBox2.TabIndex = 30;
+            this.setValueTextBox.Location = new System.Drawing.Point(7, 122);
+            this.setValueTextBox.Name = "setValueTextBox";
+            this.setValueTextBox.Size = new System.Drawing.Size(67, 20);
+            this.setValueTextBox.TabIndex = 30;
             // 
             // setValueButton
             // 
-            this.setValueButton.Location = new System.Drawing.Point(143, 106);
+            this.setValueButton.Location = new System.Drawing.Point(80, 121);
             this.setValueButton.Name = "setValueButton";
-            this.setValueButton.Size = new System.Drawing.Size(67, 20);
+            this.setValueButton.Size = new System.Drawing.Size(68, 20);
             this.setValueButton.TabIndex = 31;
             this.setValueButton.Text = "Set";
             this.setValueButton.UseVisualStyleBackColor = true;
             // 
             // setValueGroup
             // 
+            this.setValueGroup.Controls.Add(this.setValueLabel);
+            this.setValueGroup.Controls.Add(this.setZCoordinateTextBox);
+            this.setValueGroup.Controls.Add(this.setYCoordinateTextBox);
             this.setValueGroup.Controls.Add(this.setXDimensionCheckbox);
             this.setValueGroup.Controls.Add(this.setValueButton);
-            this.setValueGroup.Controls.Add(this.setXTrackBar);
-            this.setValueGroup.Controls.Add(this.textBox2);
-            this.setValueGroup.Controls.Add(this.textBox1);
+            this.setValueGroup.Controls.Add(this.setCoordinateTrackBar);
+            this.setValueGroup.Controls.Add(this.setValueTextBox);
+            this.setValueGroup.Controls.Add(this.setXCoordinateTextBox);
             this.setValueGroup.Controls.Add(this.setYDimensionCheckbox);
             this.setValueGroup.Controls.Add(this.setZDimensionCheckbox);
             this.setValueGroup.Location = new System.Drawing.Point(12, 343);
             this.setValueGroup.Name = "setValueGroup";
-            this.setValueGroup.Size = new System.Drawing.Size(366, 134);
+            this.setValueGroup.Size = new System.Drawing.Size(366, 156);
             this.setValueGroup.TabIndex = 32;
             this.setValueGroup.TabStop = false;
             this.setValueGroup.Text = "Set value";
             // 
+            // setValueLabel
+            // 
+            this.setValueLabel.AutoSize = true;
+            this.setValueLabel.Location = new System.Drawing.Point(6, 106);
+            this.setValueLabel.Name = "setValueLabel";
+            this.setValueLabel.Size = new System.Drawing.Size(34, 13);
+            this.setValueLabel.TabIndex = 34;
+            this.setValueLabel.Text = "Value";
+            // 
+            // setZCoordinateTextBox
+            // 
+            this.setZCoordinateTextBox.Location = new System.Drawing.Point(45, 71);
+            this.setZCoordinateTextBox.Name = "setZCoordinateTextBox";
+            this.setZCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
+            this.setZCoordinateTextBox.TabIndex = 33;
+            // 
+            // setYCoordinateTextBox
+            // 
+            this.setYCoordinateTextBox.Location = new System.Drawing.Point(45, 45);
+            this.setYCoordinateTextBox.Name = "setYCoordinateTextBox";
+            this.setYCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
+            this.setYCoordinateTextBox.TabIndex = 32;
+            // 
             // sizeGroupBox
             // 
             this.sizeGroupBox.Controls.Add(this.xSizeLabel);
-            this.sizeGroupBox.Controls.Add(this.textBox4);
+            this.sizeGroupBox.Controls.Add(this.sizeXTextBox);
             this.sizeGroupBox.Controls.Add(this.label3);
-            this.sizeGroupBox.Controls.Add(this.textBox5);
-            this.sizeGroupBox.Controls.Add(this.textBox6);
+            this.sizeGroupBox.Controls.Add(this.sizeYTextBox);
+            this.sizeGroupBox.Controls.Add(this.sizeZTextBox);
             this.sizeGroupBox.Controls.Add(this.label2);
             this.sizeGroupBox.Location = new System.Drawing.Point(12, 30);
             this.sizeGroupBox.Name = "sizeGroupBox";
@@ -300,7 +332,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1035, 713);
+            this.ClientSize = new System.Drawing.Size(1035, 668);
             this.Controls.Add(this.sizeGroupBox);
             this.Controls.Add(this.setValueGroup);
             this.Controls.Add(this.advancedSetupLabel);
@@ -317,7 +349,7 @@
             this.Name = "Sandpiles3DRender";
             this.Text = "Sandpiles3D";
             ((System.ComponentModel.ISupportInitialize)(this.renderArea)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.setXTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.setCoordinateTrackBar)).EndInit();
             this.setValueGroup.ResumeLayout(false);
             this.setValueGroup.PerformLayout();
             this.sizeGroupBox.ResumeLayout(false);
@@ -339,21 +371,24 @@
         private System.Windows.Forms.Label iterationsCountLabel;
         private System.Windows.Forms.Label iterationDurationLabel;
         private System.Windows.Forms.Label advancedSetupLabel;
-        private System.Windows.Forms.TrackBar setXTrackBar;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TrackBar setCoordinateTrackBar;
+        private System.Windows.Forms.TextBox setXCoordinateTextBox;
+        private System.Windows.Forms.TextBox sizeXTextBox;
         private System.Windows.Forms.Label xSizeLabel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox sizeYTextBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox sizeZTextBox;
         private System.Windows.Forms.CheckBox setYDimensionCheckbox;
         private System.Windows.Forms.CheckBox setZDimensionCheckbox;
         private System.Windows.Forms.CheckBox setXDimensionCheckbox;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox setValueTextBox;
         private System.Windows.Forms.Button setValueButton;
         private System.Windows.Forms.GroupBox setValueGroup;
         private System.Windows.Forms.GroupBox sizeGroupBox;
+        private System.Windows.Forms.TextBox setZCoordinateTextBox;
+        private System.Windows.Forms.TextBox setYCoordinateTextBox;
+        private System.Windows.Forms.Label setValueLabel;
     }
 }
 

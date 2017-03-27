@@ -41,7 +41,7 @@ namespace Sandpiles3D
             //model.SetPosition(46, 6, 6, 9);
             //model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 11);
             //model.SetPosition(0, 0, 0, 7);
-
+            bw.WorkerSupportsCancellation = true;
             bw.DoWork += PerformIteration;
             bw.RunWorkerCompleted += IterationFinished;
         }
@@ -100,5 +100,23 @@ namespace Sandpiles3D
             startStateMap[selection](model);
         }
 
+        internal void ChangeSizeOfModel(string xSizeString, string ySizeString, string zSizeString)
+        {
+            int xSize;
+            int ySize;
+            int zSize;
+            bool validInput = Int32.TryParse(xSizeString, out xSize);
+            validInput = Int32.TryParse(ySizeString, out ySize) && validInput;
+            validInput = Int32.TryParse(zSizeString, out zSize) && validInput;
+            if (validInput)
+            {
+                bw.CancelAsync();
+                model = new SandpilesCalculator(xSize, ySize, zSize);
+            }
+            else
+            {
+                view.ShowDialog("Size not parseable to integer");
+            }
+        }
     }
 }

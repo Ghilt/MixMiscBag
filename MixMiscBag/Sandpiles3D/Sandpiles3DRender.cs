@@ -141,6 +141,11 @@ namespace Sandpiles3D
             return destImage;
         }
 
+        internal void ShowDialog(string v)
+        {
+            //print error in statusfield somewhere
+        }
+
         private void StartToggleClicked(object sender, EventArgs e)
         {
             presenter.OnStartToggleClicked(((Button)sender).Text);
@@ -149,6 +154,11 @@ namespace Sandpiles3D
         private void StartStateListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             presenter.OnSelectStartFromList(((ListBox) sender).SelectedItem.ToString());
+        }
+
+        private void sizeTextBox_Leave(object sender, EventArgs e)
+        {
+            presenter.ChangeSizeOfModel(sizeXTextBox.Text, sizeYTextBox.Text, sizeZTextBox.Text);
         }
     }
 }
