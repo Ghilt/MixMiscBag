@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -10,6 +11,13 @@ namespace Sandpiles3D
     public class Presenter
     {
 
+        private static readonly Dictionary<string, Action<SandpilesCalculator>> startStateMap = new Dictionary<string, Action<SandpilesCalculator>>{
+            { "Fill 7", m => m.Fill(7)},
+            { "Mid 7", m => m.SetPosition(m.getMidX(), m.getMidY(), m.getMidZ(), 7)},
+            { "TopLeftBack 7", m => m.SetPosition(0,0,0, 7)},
+            { "BottomRightFront 7", m => m.SetPosition(m.width - 1, m.height - 1, m.depth - 1, 7)},
+            { "Fill 6", m => m.FillMax()}
+        };
 
         private long lastIterationDuration;
         private SandpilesCalculator model;
@@ -19,9 +27,9 @@ namespace Sandpiles3D
         public Presenter()
         {
             int size = 101;
-            model = new SandpilesCalculator(size, size, size);
-            model.FillMax();
-            model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
+            model = new SandpilesCalculator(size, size, 21);
+            //model.Fill(7);
+            //model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
             //model.SetPosition(0, 0, model.depth - 1, 20);
             //model.SetPosition(model.width - 1, model.height - 1, 0, 20);
 
@@ -86,5 +94,11 @@ namespace Sandpiles3D
                 view.ToggleStartToggleButton("Start");
             }
         }
+
+        internal void OnSelectStartFromList(string selection)
+        {
+            startStateMap[selection](model);
+        }
+
     }
 }

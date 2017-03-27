@@ -145,5 +145,10 @@ namespace Sandpiles3D
         {
             presenter.OnStartToggleClicked(((Button)sender).Text);
         }
+
+        private void StartStateListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            presenter.OnSelectStartFromList(((ListBox) sender).SelectedItem.ToString());
+        }
     }
 }
