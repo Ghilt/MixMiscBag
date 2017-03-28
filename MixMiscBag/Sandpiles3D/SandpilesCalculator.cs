@@ -141,7 +141,7 @@ namespace Sandpiles3D
             }
         }
 
-        internal Color[,] Get2DProjection()
+        internal SandPilesIterationData Get2DProjection()
         {
             int dims = 3;
 
@@ -192,7 +192,7 @@ namespace Sandpiles3D
                     projection[x, y] = Color.FromArgb((int)flatten[x, y, 0], (int)flatten[x, y, 1], (int)flatten[x, y, 2]);
                 }
             }
-            return projection;
+            return new SandPilesIterationData(iterationCounter, projection);
         }
 
         internal int getMidX()
@@ -210,7 +210,7 @@ namespace Sandpiles3D
             return depth / 2;
         }
 
-        private Color[,] NoDataColorMatrix()
+        private SandPilesIterationData NoDataColorMatrix()
         {
             Color[,] projection = new Color[height, width];
             for (int x = 0; x < width; x++)
@@ -220,7 +220,7 @@ namespace Sandpiles3D
                     projection[x, y] = Color.FromArgb((30 + x) % 250, y % 250, (x + y) % 250);
                 }
             }
-            return projection;
+            return new SandPilesIterationData(iterationCounter, projection);
         }
     }
 

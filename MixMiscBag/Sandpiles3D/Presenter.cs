@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Sandpiles3D
 {
 
-    // http://people.reed.edu/~davidp/web_sandpiles/
+    //inspiration http://people.reed.edu/~davidp/web_sandpiles/
     public class Presenter
     {
 
@@ -48,7 +49,7 @@ namespace Sandpiles3D
         {
             bw = CreateNewWorker();
             view.SetIterateButtonEnabled(false);
-            bw.DoWork += PerformIteration;
+            bw.DoWork += PerformSingleIteration;
             bw.RunWorkerCompleted += (x, y) => view.SetIterateButtonEnabled(true);
             bw.RunWorkerCompleted += IterationFinished;
             bw.WorkerSupportsCancellation = true;
@@ -72,10 +73,10 @@ namespace Sandpiles3D
             if (text.Equals("Start"))
             {
                 bw = CreateNewWorker();
+                bw.WorkerReportsProgress = true;
                 view.SetIterateButtonEnabled(false);
-                bw.DoWork += PerformIteration;
-                bw.RunWorkerCompleted += IterationFinished;
-                bw.RunWorkerCompleted += ContinousIteration;
+                bw.DoWork += PerformContinousIteration;
+                bw.ProgressChanged += IterationFinished;
                 bw.RunWorkerAsync();
                 view.ToggleStartToggleButton("Stop");
             }
@@ -89,35 +90,46 @@ namespace Sandpiles3D
 
         internal void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
         {
+            SandPilesIterationData result = e.Result as SandPilesIterationData;
+            UpdateUiWithModelData(result);
+        }
+
+        internal void IterationFinished(object sender, ProgressChangedEventArgs e)
+        {
+            SandPilesIterationData state = e.UserState as SandPilesIterationData;
+            UpdateUiWithModelData(state);
+        }
+
+        private void UpdateUiWithModelData(SandPilesIterationData d)
+        {
             view.updatePerformanceCounter(lastIterationDuration + "");
             //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
-            view.DrawSandpiles(model.Get2DProjection());
-            view.SetIterationCounter(model.iterationCounter + "");
+            view.DrawSandpiles(d.dim2Projection);
+            view.SetIterationCounter(d.iteration + ""); // create data container with iteration + duration in it
         }
 
-        internal void ContinousIteration(object sender, RunWorkerCompletedEventArgs e)
+        internal void PerformContinousIteration(object sender, DoWorkEventArgs e)
         {
             ModelBackgroundWorker worker = (ModelBackgroundWorker)sender;
-            worker.RunWorkerAsync();
-        }
 
-        internal void PerformIteration(object sender, DoWorkEventArgs e)
-        {
-            ModelBackgroundWorker worker = (ModelBackgroundWorker)sender;
-            if (worker.IsCancelled())
-            {
-                worker.RunWorkerCompleted -= IterationFinished;
-                worker.RunWorkerCompleted -= ContinousIteration;
-                e.Cancel = true;
-            }
-            else
+            while (!worker.CancellationPending)
             {
                 var watch = System.Diagnostics.Stopwatch.StartNew();
                 worker.model.Iterate();
                 watch.Stop();
                 lastIterationDuration = watch.ElapsedMilliseconds;
-            }
+                worker.ReportProgress(0, worker.model.Get2DProjection());
+            }   
+        }
 
+        internal void PerformSingleIteration(object sender, DoWorkEventArgs e)
+        {
+            ModelBackgroundWorker worker = (ModelBackgroundWorker)sender;
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            worker.model.Iterate();
+            watch.Stop();
+            lastIterationDuration = watch.ElapsedMilliseconds;
+            e.Result = worker.model.Get2DProjection();
         }
 
         internal void SetView(Sandpiles3DRender view)
