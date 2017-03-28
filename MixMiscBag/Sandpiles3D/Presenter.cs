@@ -22,12 +22,12 @@ namespace Sandpiles3D
         private long lastIterationDuration;
         private SandpilesCalculator model;
         private Sandpiles3DRender view;
-        BackgroundWorker bw = new BackgroundWorker();
+        ModelBackgroundWorker bw;
 
         public Presenter()
         {
             int size = 101;
-            model = new SandpilesCalculator(size, size, 21);
+            model = new SandpilesCalculator(size, size, 71);
             //model.Fill(7);
             //model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
             //model.SetPosition(0, 0, model.depth - 1, 20);
@@ -41,15 +41,50 @@ namespace Sandpiles3D
             //model.SetPosition(46, 6, 6, 9);
             //model.SetPosition(model.width - 1, model.height - 1, model.depth - 1, 11);
             //model.SetPosition(0, 0, 0, 7);
-            bw.WorkerSupportsCancellation = true;
-            bw.DoWork += PerformIteration;
-            bw.RunWorkerCompleted += IterationFinished;
+
         }
 
         public void OnIterateButton()
         {
+            bw = CreateNewWorker();
             view.SetIterateButtonEnabled(false);
+            bw.DoWork += PerformIteration;
+            bw.RunWorkerCompleted += (x, y) => view.SetIterateButtonEnabled(true);
+            bw.RunWorkerCompleted += IterationFinished;
+            bw.WorkerSupportsCancellation = true;
             bw.RunWorkerAsync();
+        }
+
+        private ModelBackgroundWorker CreateNewWorker()
+        {
+            if (bw != null)
+            {
+                bw.CancelAsync();
+                bw.Dispose();
+            }
+            ModelBackgroundWorker w = new ModelBackgroundWorker(model);
+            w.WorkerSupportsCancellation = true;
+            return w;
+        }
+
+        internal void OnStartToggleClicked(string text)
+        {
+            if (text.Equals("Start"))
+            {
+                bw = CreateNewWorker();
+                view.SetIterateButtonEnabled(false);
+                bw.DoWork += PerformIteration;
+                bw.RunWorkerCompleted += IterationFinished;
+                bw.RunWorkerCompleted += ContinousIteration;
+                bw.RunWorkerAsync();
+                view.ToggleStartToggleButton("Stop");
+            }
+            else
+            {
+                view.SetIterateButtonEnabled(true);
+                bw.CancelAsyncModel();
+                view.ToggleStartToggleButton("Start");
+            }
         }
 
         internal void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
@@ -57,42 +92,37 @@ namespace Sandpiles3D
             view.updatePerformanceCounter(lastIterationDuration + "");
             //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
             view.DrawSandpiles(model.Get2DProjection());
-            view.SetIterateButtonEnabled(true);
             view.SetIterationCounter(model.iterationCounter + "");
         }
 
         internal void ContinousIteration(object sender, RunWorkerCompletedEventArgs e)
         {
-            view.SetIterateButtonEnabled(true);
-            bw.RunWorkerAsync();
+            ModelBackgroundWorker worker = (ModelBackgroundWorker)sender;
+            worker.RunWorkerAsync();
         }
 
         internal void PerformIteration(object sender, DoWorkEventArgs e)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-            model.Iterate();
-            watch.Stop();
-            lastIterationDuration = watch.ElapsedMilliseconds;
+            ModelBackgroundWorker worker = (ModelBackgroundWorker)sender;
+            if (worker.IsCancelled())
+            {
+                worker.RunWorkerCompleted -= IterationFinished;
+                worker.RunWorkerCompleted -= ContinousIteration;
+                e.Cancel = true;
+            }
+            else
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                worker.model.Iterate();
+                watch.Stop();
+                lastIterationDuration = watch.ElapsedMilliseconds;
+            }
+
         }
 
         internal void SetView(Sandpiles3DRender view)
         {
             this.view = view;
-        }
-
-        internal void OnStartToggleClicked(string text)
-        {
-            if (text.Equals("Start"))
-            {
-                bw.RunWorkerAsync();
-                view.ToggleStartToggleButton("Stop");
-                bw.RunWorkerCompleted += ContinousIteration;
-            }
-            else
-            {
-                bw.RunWorkerCompleted -= ContinousIteration;
-                view.ToggleStartToggleButton("Start");
-            }
         }
 
         internal void OnSelectStartFromList(string selection)
@@ -110,7 +140,7 @@ namespace Sandpiles3D
             validInput = Int32.TryParse(zSizeString, out zSize) && validInput;
             if (validInput)
             {
-                bw.CancelAsync();
+                bw.CancelAsyncModel();
                 model = new SandpilesCalculator(xSize, ySize, zSize);
             }
             else

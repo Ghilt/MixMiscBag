@@ -46,6 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ModelBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Presenter.cs" />
     <Compile Include="SandpilesCalculator.cs" />
     <Compile Include="Sandpiles3DRender.cs">

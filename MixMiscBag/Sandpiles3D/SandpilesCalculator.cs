@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sandpiles3D
 {
-    class SandpilesCalculator
+    public class SandpilesCalculator
     {
         private const int MAX_AMOUNT = 6;
 
