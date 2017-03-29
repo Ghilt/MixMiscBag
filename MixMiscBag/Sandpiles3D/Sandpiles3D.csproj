@@ -50,6 +50,11 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Presenter.cs" />
+    <Compile Include="SanpileStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SanpileStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="SandpilesCalculator.cs" />
     <Compile Include="Sandpiles3DRender.cs">
       <SubType>Form</SubType>
@@ -60,6 +65,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandPilesIterationData.cs" />
+    <EmbeddedResource Include="SanpileStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SanpileStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sandpiles3DRender.resx">
       <DependentUpon>Sandpiles3DRender.cs</DependentUpon>
     </EmbeddedResource>

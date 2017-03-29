@@ -110,11 +110,12 @@
             // 
             this.startStateListBox.FormattingEnabled = true;
             this.startStateListBox.Items.AddRange(new object[] {
-            "Fill 6",
-            "Fill 7",
-            "Mid 7",
-            "TopLeftBack 7",
-            "BottomRightFront 7"});
+            SanpileStrings.quick_access_fill_6,
+            SanpileStrings.quick_access_fill_7,
+            SanpileStrings.quick_access_mid_7,
+            SanpileStrings.quick_access_mid_100,
+            SanpileStrings.quick_access_bottom_right_front_7,
+            SanpileStrings.quick_access_top_left_back_7});
             this.startStateListBox.Location = new System.Drawing.Point(19, 159);
             this.startStateListBox.Name = "startStateListBox";
             this.startStateListBox.Size = new System.Drawing.Size(137, 134);

@@ -13,11 +13,12 @@ namespace Sandpiles3D
     {
 
         private static readonly Dictionary<string, Action<SandpilesCalculator>> startStateMap = new Dictionary<string, Action<SandpilesCalculator>>{
-            { "Fill 7", m => m.Fill(7)},
-            { "Mid 7", m => m.SetPosition(m.getMidX(), m.getMidY(), m.getMidZ(), 7)},
-            { "TopLeftBack 7", m => m.SetPosition(0,0,0, 7)},
-            { "BottomRightFront 7", m => m.SetPosition(m.width - 1, m.height - 1, m.depth - 1, 7)},
-            { "Fill 6", m => m.FillMax()}
+            { SanpileStrings.quick_access_fill_6, m => m.FillMax()},
+            { SanpileStrings.quick_access_fill_7, m => m.Fill(7)},
+            { SanpileStrings.quick_access_mid_7, m => m.SetPosition(m.getMidX(), m.getMidY(), m.getMidZ(), 7)},
+            { SanpileStrings.quick_access_mid_100, m => m.SetPosition(m.getMidX(), m.getMidY(), m.getMidZ(), 100)},
+            { SanpileStrings.quick_access_top_left_back_7, m => m.SetPosition(0,0,0, 7)},
+            { SanpileStrings.quick_access_bottom_right_front_7, m => m.SetPosition(m.width - 1, m.height - 1, m.depth - 1, 7)},
         };
 
         private long lastIterationDuration;
@@ -30,10 +31,6 @@ namespace Sandpiles3D
             int size = 101;
             model = new SandpilesCalculator(size, size, 71);
             //model.Fill(7);
-            //model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100);
-            //model.SetPosition(0, 0, model.depth - 1, 20);
-            //model.SetPosition(model.width - 1, model.height - 1, 0, 20);
-
             //model.SetPosition(0, 0, 0, 8);
             //model.SetPosition(model.width - 1, 0, model.depth - 1, 8);
             //model.SetPosition(model.width - 1, model.height - 1, 0, 9);
@@ -102,9 +99,9 @@ namespace Sandpiles3D
         private void UpdateUiWithModelData(SandPilesIterationData d)
         {
             view.updatePerformanceCounter(lastIterationDuration + "");
-            //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); // Do this on background thread as well
+            //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); 
             view.DrawSandpiles(d.dim2Projection);
-            view.SetIterationCounter(d.iteration + ""); // create data container with iteration + duration in it
+            view.SetIterationCounter(d.iteration + "");
         }
 
         internal void PerformContinousIteration(object sender, DoWorkEventArgs e)
