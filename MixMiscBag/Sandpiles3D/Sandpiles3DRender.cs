@@ -153,12 +153,19 @@ namespace Sandpiles3D
 
         private void StartStateListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            presenter.OnSelectStartFromList(((ListBox) sender).SelectedItem.ToString());
+            presenter.OnSelectStartFromList(((ListBox)sender).SelectedItem.ToString());
         }
 
         private void sizeTextBox_Leave(object sender, EventArgs e)
         {
             presenter.ChangeSizeOfModel(sizeXTextBox.Text, sizeYTextBox.Text, sizeZTextBox.Text);
+        }
+
+        internal void UpdateModelSizeTexts(int width, int height, int depth)
+        {
+            sizeXTextBox.Text = "" + width;
+            sizeYTextBox.Text = "" + height;
+            sizeZTextBox.Text = "" + depth;
         }
     }
 }

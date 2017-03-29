@@ -145,7 +145,7 @@ namespace Sandpiles3D
         {
             int dims = 3;
 
-            float[, ,] flatten = new float[height, width, dims];
+            float[, ,] flatten = new float[width, height, dims];
 
             float[] biggestValue = new float[dims];
 
@@ -178,7 +178,7 @@ namespace Sandpiles3D
             {
                 return NoDataColorMatrix();
             }
-            Color[,] projection = new Color[height, width];
+            Color[,] projection = new Color[width, height];
             float normalize = biggestValue.Max();
             for (int x = 0; x < width; x++)
             {
@@ -212,7 +212,7 @@ namespace Sandpiles3D
 
         private SandPilesIterationData NoDataColorMatrix()
         {
-            Color[,] projection = new Color[height, width];
+            Color[,] projection = new Color[width, height];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)

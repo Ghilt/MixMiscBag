@@ -52,7 +52,6 @@ namespace Sandpiles3D
             bw.DoWork += PerformSingleIteration;
             bw.RunWorkerCompleted += (x, y) => view.SetIterateButtonEnabled(true);
             bw.RunWorkerCompleted += IterationFinished;
-            bw.WorkerSupportsCancellation = true;
             bw.RunWorkerAsync();
         }
 
@@ -83,7 +82,7 @@ namespace Sandpiles3D
             else
             {
                 view.SetIterateButtonEnabled(true);
-                bw.CancelAsyncModel();
+                bw.CancelAsync();
                 view.ToggleStartToggleButton("Start");
             }
         }
@@ -132,9 +131,10 @@ namespace Sandpiles3D
             e.Result = worker.model.Get2DProjection();
         }
 
-        internal void SetView(Sandpiles3DRender view)
+        internal void Initialize(Sandpiles3DRender view)
         {
             this.view = view;
+            view.UpdateModelSizeTexts(model.width, model.height, model.depth);
         }
 
         internal void OnSelectStartFromList(string selection)
@@ -152,7 +152,7 @@ namespace Sandpiles3D
             validInput = Int32.TryParse(zSizeString, out zSize) && validInput;
             if (validInput)
             {
-                bw.CancelAsyncModel();
+                if (bw != null) bw.CancelAsync();
                 model = new SandpilesCalculator(xSize, ySize, zSize);
             }
             else

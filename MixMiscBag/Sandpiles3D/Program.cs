@@ -18,7 +18,7 @@ namespace Sandpiles3D
             Application.SetCompatibleTextRenderingDefault(false);
             Presenter presenter = new Presenter();
             Sandpiles3DRender f1 = new Sandpiles3DRender(presenter);
-            presenter.SetView(f1);
+            presenter.Initialize(f1);
             Application.Run(f1);
         }
     }
