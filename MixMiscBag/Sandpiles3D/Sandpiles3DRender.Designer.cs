@@ -40,22 +40,22 @@
             this.iterationDurationLabel = new System.Windows.Forms.Label();
             this.advancedSetupLabel = new System.Windows.Forms.Label();
             this.setCoordinateTrackBar = new System.Windows.Forms.TrackBar();
-            this.setXCoordinateTextBox = new System.Windows.Forms.TextBox();
-            this.sizeXTextBox = new System.Windows.Forms.TextBox();
+            this.setXCoordinateTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.sizeXTextBox = new System.Windows.Forms.MaskedTextBox();
             this.xSizeLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.sizeYTextBox = new System.Windows.Forms.TextBox();
+            this.sizeYTextBox = new System.Windows.Forms.MaskedTextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.sizeZTextBox = new System.Windows.Forms.TextBox();
+            this.sizeZTextBox = new System.Windows.Forms.MaskedTextBox();
             this.setYDimensionCheckbox = new System.Windows.Forms.CheckBox();
             this.setZDimensionCheckbox = new System.Windows.Forms.CheckBox();
             this.setXDimensionCheckbox = new System.Windows.Forms.CheckBox();
-            this.setValueTextBox = new System.Windows.Forms.TextBox();
+            this.setValueTextBox = new System.Windows.Forms.MaskedTextBox();
             this.setValueButton = new System.Windows.Forms.Button();
             this.setValueGroup = new System.Windows.Forms.GroupBox();
             this.setValueLabel = new System.Windows.Forms.Label();
-            this.setZCoordinateTextBox = new System.Windows.Forms.TextBox();
-            this.setYCoordinateTextBox = new System.Windows.Forms.TextBox();
+            this.setZCoordinateTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.setYCoordinateTextBox = new System.Windows.Forms.MaskedTextBox();
             this.sizeGroupBox = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.renderArea)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.setCoordinateTrackBar)).BeginInit();
@@ -110,12 +110,12 @@
             // 
             this.startStateListBox.FormattingEnabled = true;
             this.startStateListBox.Items.AddRange(new object[] {
-            SanpileStrings.quick_access_fill_6,
-            SanpileStrings.quick_access_fill_7,
-            SanpileStrings.quick_access_mid_7,
-            SanpileStrings.quick_access_mid_100,
-            SanpileStrings.quick_access_bottom_right_front_7,
-            SanpileStrings.quick_access_top_left_back_7});
+            global::Sandpiles3D.SanpileStrings.quick_access_fill_6,
+            global::Sandpiles3D.SanpileStrings.quick_access_fill_7,
+            global::Sandpiles3D.SanpileStrings.quick_access_mid_7,
+            global::Sandpiles3D.SanpileStrings.quick_access_mid_100,
+            global::Sandpiles3D.SanpileStrings.quick_access_bottom_right_front_7,
+            global::Sandpiles3D.SanpileStrings.quick_access_top_left_back_7});
             this.startStateListBox.Location = new System.Drawing.Point(19, 159);
             this.startStateListBox.Name = "startStateListBox";
             this.startStateListBox.Size = new System.Drawing.Size(137, 134);
@@ -168,16 +168,22 @@
             // setXCoordinateTextBox
             // 
             this.setXCoordinateTextBox.Location = new System.Drawing.Point(45, 19);
+            this.setXCoordinateTextBox.Mask = "09999";
             this.setXCoordinateTextBox.Name = "setXCoordinateTextBox";
+            this.setXCoordinateTextBox.PromptChar = ' ';
             this.setXCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setXCoordinateTextBox.TabIndex = 12;
             // 
             // sizeXTextBox
             // 
+            this.sizeXTextBox.CutCopyMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.sizeXTextBox.Location = new System.Drawing.Point(29, 16);
+            this.sizeXTextBox.Mask = "09999";
             this.sizeXTextBox.Name = "sizeXTextBox";
+            this.sizeXTextBox.PromptChar = ' ';
             this.sizeXTextBox.Size = new System.Drawing.Size(67, 20);
             this.sizeXTextBox.TabIndex = 21;
+            this.sizeXTextBox.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.sizeXTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
             // 
             // xSizeLabel
@@ -203,7 +209,9 @@
             // sizeYTextBox
             // 
             this.sizeYTextBox.Location = new System.Drawing.Point(29, 42);
+            this.sizeYTextBox.Mask = "09999";
             this.sizeYTextBox.Name = "sizeYTextBox";
+            this.sizeYTextBox.PromptChar = ' ';
             this.sizeYTextBox.Size = new System.Drawing.Size(67, 20);
             this.sizeYTextBox.TabIndex = 23;
             this.sizeYTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
@@ -221,7 +229,9 @@
             // sizeZTextBox
             // 
             this.sizeZTextBox.Location = new System.Drawing.Point(29, 68);
+            this.sizeZTextBox.Mask = "09999";
             this.sizeZTextBox.Name = "sizeZTextBox";
+            this.sizeZTextBox.PromptChar = ' ';
             this.sizeZTextBox.Size = new System.Drawing.Size(67, 20);
             this.sizeZTextBox.TabIndex = 25;
             this.sizeZTextBox.Leave += new System.EventHandler(this.sizeTextBox_Leave);
@@ -259,7 +269,9 @@
             // setValueTextBox
             // 
             this.setValueTextBox.Location = new System.Drawing.Point(7, 122);
+            this.setValueTextBox.Mask = "09999";
             this.setValueTextBox.Name = "setValueTextBox";
+            this.setValueTextBox.PromptChar = ' ';
             this.setValueTextBox.Size = new System.Drawing.Size(67, 20);
             this.setValueTextBox.TabIndex = 30;
             // 
@@ -271,6 +283,7 @@
             this.setValueButton.TabIndex = 31;
             this.setValueButton.Text = "Set";
             this.setValueButton.UseVisualStyleBackColor = true;
+            this.setValueButton.Click += new System.EventHandler(this.setValueButton_Click);
             // 
             // setValueGroup
             // 
@@ -303,14 +316,18 @@
             // setZCoordinateTextBox
             // 
             this.setZCoordinateTextBox.Location = new System.Drawing.Point(45, 71);
+            this.setZCoordinateTextBox.Mask = "09999";
             this.setZCoordinateTextBox.Name = "setZCoordinateTextBox";
+            this.setZCoordinateTextBox.PromptChar = ' ';
             this.setZCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setZCoordinateTextBox.TabIndex = 33;
             // 
             // setYCoordinateTextBox
             // 
             this.setYCoordinateTextBox.Location = new System.Drawing.Point(45, 45);
+            this.setYCoordinateTextBox.Mask = "09999";
             this.setYCoordinateTextBox.Name = "setYCoordinateTextBox";
+            this.setYCoordinateTextBox.PromptChar = ' ';
             this.setYCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setYCoordinateTextBox.TabIndex = 32;
             // 
@@ -373,22 +390,22 @@
         private System.Windows.Forms.Label iterationDurationLabel;
         private System.Windows.Forms.Label advancedSetupLabel;
         private System.Windows.Forms.TrackBar setCoordinateTrackBar;
-        private System.Windows.Forms.TextBox setXCoordinateTextBox;
-        private System.Windows.Forms.TextBox sizeXTextBox;
+        private System.Windows.Forms.MaskedTextBox setXCoordinateTextBox;
+        private System.Windows.Forms.MaskedTextBox sizeXTextBox;
         private System.Windows.Forms.Label xSizeLabel;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox sizeYTextBox;
+        private System.Windows.Forms.MaskedTextBox sizeYTextBox;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox sizeZTextBox;
+        private System.Windows.Forms.MaskedTextBox sizeZTextBox;
         private System.Windows.Forms.CheckBox setYDimensionCheckbox;
         private System.Windows.Forms.CheckBox setZDimensionCheckbox;
         private System.Windows.Forms.CheckBox setXDimensionCheckbox;
-        private System.Windows.Forms.TextBox setValueTextBox;
+        private System.Windows.Forms.MaskedTextBox setValueTextBox;
         private System.Windows.Forms.Button setValueButton;
         private System.Windows.Forms.GroupBox setValueGroup;
         private System.Windows.Forms.GroupBox sizeGroupBox;
-        private System.Windows.Forms.TextBox setZCoordinateTextBox;
-        private System.Windows.Forms.TextBox setYCoordinateTextBox;
+        private System.Windows.Forms.MaskedTextBox setZCoordinateTextBox;
+        private System.Windows.Forms.MaskedTextBox setYCoordinateTextBox;
         private System.Windows.Forms.Label setValueLabel;
     }
 }

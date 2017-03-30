@@ -167,5 +167,10 @@ namespace Sandpiles3D
             sizeYTextBox.Text = "" + height;
             sizeZTextBox.Text = "" + depth;
         }
+
+        private void setValueButton_Click(object sender, EventArgs e)
+        {
+            presenter.OnSetModelValue(setXDimensionCheckbox.Checked, setYDimensionCheckbox.Checked, setZDimensionCheckbox.Checked, setXCoordinateTextBox.Text, setYCoordinateTextBox.Text, setZCoordinateTextBox.Text, setValueTextBox.Text);
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace Sandpiles3D
     {
         private const int MAX_AMOUNT = 6;
 
-        private int[, ,] space;
-        private int[, ,] delta;
+        private int[,,] space;
+        private int[,,] delta;
         private float[,] multipliers;
 
         public int width { get; private set; }
@@ -145,7 +145,7 @@ namespace Sandpiles3D
         {
             int dims = 3;
 
-            float[, ,] flatten = new float[width, height, dims];
+            float[,,] flatten = new float[width, height, dims];
 
             float[] biggestValue = new float[dims];
 
@@ -222,11 +222,35 @@ namespace Sandpiles3D
             }
             return new SandPilesIterationData(iterationCounter, projection);
         }
+
+        internal void FillValues(bool[] dimEnabled, int[] coords, int value)
+        {
+            int[,] dimensionIterationInterval = new int[,] { { 0, width }, { 0, height }, { 0, depth } };
+            for (int i = 0; i < dimEnabled.Length; i++)
+            {
+                if (dimEnabled[i])
+                {
+                    dimensionIterationInterval[i, 0] = coords[i];
+                    dimensionIterationInterval[i, 1] = coords[i] + 1;
+                }
+            }
+
+            for (int x = dimensionIterationInterval[0, 0]; x < dimensionIterationInterval[0, 1]; x++)
+            {
+                for (int y = dimensionIterationInterval[1, 0]; y < dimensionIterationInterval[1, 1]; y++)
+                {
+                    for (int z = dimensionIterationInterval[2, 0]; z < dimensionIterationInterval[2, 1]; z++)
+                    {
+                        space[x, y, z] = value;
+                    }
+                }
+            }
+        }
     }
 
     public static class ArrayExtensions
     {
-        public static void Fill<T>(this T[, ,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
+        public static void Fill<T>(this T[,,] originalArray, T with) // http://stackoverflow.com/questions/5943850/fastest-way-to-fill-an-array-with-a-single-value
         {
             for (int x = 0; x < originalArray.GetLength(0); x++)
             {

@@ -141,9 +141,7 @@ namespace Sandpiles3D
 
         internal void ChangeSizeOfModel(string xSizeString, string ySizeString, string zSizeString)
         {
-            int xSize;
-            int ySize;
-            int zSize;
+            int xSize, ySize, zSize;
             bool validInput = Int32.TryParse(xSizeString, out xSize);
             validInput = Int32.TryParse(ySizeString, out ySize) && validInput;
             validInput = Int32.TryParse(zSizeString, out zSize) && validInput;
@@ -155,6 +153,23 @@ namespace Sandpiles3D
             else
             {
                 view.ShowDialog("Size not parseable to integer");
+            }
+        }
+
+        internal void OnSetModelValue(bool xEnabled, bool yEnabled, bool zEnabled, string xPosString, string yPosString, string zPosString, string valueString)
+        {
+            int xPos, yPos, zPos, value;
+            bool validInput = Int32.TryParse(xPosString, out xPos);
+            validInput = Int32.TryParse(yPosString, out yPos) && validInput;
+            validInput = Int32.TryParse(zPosString, out zPos) && validInput;
+            validInput = Int32.TryParse(valueString, out value) && validInput;
+            if (validInput)
+            {
+                model.FillValues(new bool[]{xEnabled, yEnabled, zEnabled}, new int[] {xPos, yPos, zPos}, value);
+            }
+            else
+            {
+                view.ShowDialog("Values not parseable to integer");
             }
         }
     }
