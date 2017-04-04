@@ -57,10 +57,15 @@
             this.setZCoordinateTextBox = new System.Windows.Forms.TextBox();
             this.setYCoordinateTextBox = new System.Windows.Forms.TextBox();
             this.sizeGroupBox = new System.Windows.Forms.GroupBox();
+            this.visualizationGroupBox = new System.Windows.Forms.GroupBox();
+            this.threeDimensionVisualizeRadioButton = new System.Windows.Forms.RadioButton();
+            this.crossSectionVisualizeRadioButton = new System.Windows.Forms.RadioButton();
+            this.flattenVisualizeRadioButton = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.renderArea)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.setCoordinateTrackBar)).BeginInit();
             this.setValueGroup.SuspendLayout();
             this.sizeGroupBox.SuspendLayout();
+            this.visualizationGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // renderArea
@@ -118,16 +123,16 @@
             global::Sandpiles3D.SanpileStrings.quick_access_mid_100,
             global::Sandpiles3D.SanpileStrings.quick_access_bottom_right_front_7,
             global::Sandpiles3D.SanpileStrings.quick_access_top_left_back_7});
-            this.startStateListBox.Location = new System.Drawing.Point(19, 159);
+            this.startStateListBox.Location = new System.Drawing.Point(19, 243);
             this.startStateListBox.Name = "startStateListBox";
-            this.startStateListBox.Size = new System.Drawing.Size(137, 134);
+            this.startStateListBox.Size = new System.Drawing.Size(137, 95);
             this.startStateListBox.TabIndex = 5;
             this.startStateListBox.SelectedIndexChanged += new System.EventHandler(this.StartStateListBox_SelectedIndexChanged);
             // 
             // quickMenuLabel
             // 
             this.quickMenuLabel.AutoSize = true;
-            this.quickMenuLabel.Location = new System.Drawing.Point(12, 143);
+            this.quickMenuLabel.Location = new System.Drawing.Point(12, 227);
             this.quickMenuLabel.Name = "quickMenuLabel";
             this.quickMenuLabel.Size = new System.Drawing.Size(65, 13);
             this.quickMenuLabel.TabIndex = 7;
@@ -154,7 +159,7 @@
             // advancedSetupLabel
             // 
             this.advancedSetupLabel.AutoSize = true;
-            this.advancedSetupLabel.Location = new System.Drawing.Point(12, 314);
+            this.advancedSetupLabel.Location = new System.Drawing.Point(12, 355);
             this.advancedSetupLabel.Name = "advancedSetupLabel";
             this.advancedSetupLabel.Size = new System.Drawing.Size(112, 13);
             this.advancedSetupLabel.TabIndex = 10;
@@ -173,6 +178,7 @@
             this.setXCoordinateTextBox.Name = "setXCoordinateTextBox";
             this.setXCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setXCoordinateTextBox.TabIndex = 12;
+            this.setXCoordinateTextBox.Text = "0";
             this.setXCoordinateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Numeric_KeyPress);
             // 
             // sizeXTextBox
@@ -268,6 +274,7 @@
             this.setValueTextBox.Name = "setValueTextBox";
             this.setValueTextBox.Size = new System.Drawing.Size(67, 20);
             this.setValueTextBox.TabIndex = 30;
+            this.setValueTextBox.Text = "0";
             this.setValueTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Numeric_KeyPress);
             // 
             // setValueButton
@@ -292,7 +299,7 @@
             this.setValueGroup.Controls.Add(this.setXCoordinateTextBox);
             this.setValueGroup.Controls.Add(this.setYDimensionCheckbox);
             this.setValueGroup.Controls.Add(this.setZDimensionCheckbox);
-            this.setValueGroup.Location = new System.Drawing.Point(12, 343);
+            this.setValueGroup.Location = new System.Drawing.Point(12, 384);
             this.setValueGroup.Name = "setValueGroup";
             this.setValueGroup.Size = new System.Drawing.Size(366, 156);
             this.setValueGroup.TabIndex = 32;
@@ -314,6 +321,7 @@
             this.setZCoordinateTextBox.Name = "setZCoordinateTextBox";
             this.setZCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setZCoordinateTextBox.TabIndex = 33;
+            this.setZCoordinateTextBox.Text = "0";
             this.setZCoordinateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Numeric_KeyPress);
             // 
             // setYCoordinateTextBox
@@ -322,6 +330,7 @@
             this.setYCoordinateTextBox.Name = "setYCoordinateTextBox";
             this.setYCoordinateTextBox.Size = new System.Drawing.Size(67, 20);
             this.setYCoordinateTextBox.TabIndex = 32;
+            this.setYCoordinateTextBox.Text = "0";
             this.setYCoordinateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_Numeric_KeyPress);
             // 
             // sizeGroupBox
@@ -332,18 +341,69 @@
             this.sizeGroupBox.Controls.Add(this.sizeYTextBox);
             this.sizeGroupBox.Controls.Add(this.sizeZTextBox);
             this.sizeGroupBox.Controls.Add(this.label2);
-            this.sizeGroupBox.Location = new System.Drawing.Point(12, 30);
+            this.sizeGroupBox.Location = new System.Drawing.Point(12, 124);
             this.sizeGroupBox.Name = "sizeGroupBox";
             this.sizeGroupBox.Size = new System.Drawing.Size(200, 100);
             this.sizeGroupBox.TabIndex = 33;
             this.sizeGroupBox.TabStop = false;
             this.sizeGroupBox.Text = "Size";
             // 
+            // visualizationGroupBox
+            // 
+            this.visualizationGroupBox.Controls.Add(this.threeDimensionVisualizeRadioButton);
+            this.visualizationGroupBox.Controls.Add(this.crossSectionVisualizeRadioButton);
+            this.visualizationGroupBox.Controls.Add(this.flattenVisualizeRadioButton);
+            this.visualizationGroupBox.Location = new System.Drawing.Point(12, 23);
+            this.visualizationGroupBox.Name = "visualizationGroupBox";
+            this.visualizationGroupBox.Size = new System.Drawing.Size(200, 95);
+            this.visualizationGroupBox.TabIndex = 35;
+            this.visualizationGroupBox.TabStop = false;
+            this.visualizationGroupBox.Text = "Visualization";
+            // 
+            // threeDimensionVisualizeRadioButton
+            // 
+            this.threeDimensionVisualizeRadioButton.AutoSize = true;
+            this.threeDimensionVisualizeRadioButton.Enabled = false;
+            this.threeDimensionVisualizeRadioButton.Location = new System.Drawing.Point(9, 66);
+            this.threeDimensionVisualizeRadioButton.Name = "threeDimensionVisualizeRadioButton";
+            this.threeDimensionVisualizeRadioButton.Size = new System.Drawing.Size(39, 17);
+            this.threeDimensionVisualizeRadioButton.TabIndex = 2;
+            this.threeDimensionVisualizeRadioButton.Tag = Sandpiles3D.Presenter.VisualizationMode.CrossSection;
+            this.threeDimensionVisualizeRadioButton.Text = global::Sandpiles3D.SanpileStrings.visualization_mode_3D;
+            this.threeDimensionVisualizeRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // crossSectionVisualizeRadioButton
+            // 
+            this.crossSectionVisualizeRadioButton.AutoSize = true;
+            this.crossSectionVisualizeRadioButton.Location = new System.Drawing.Point(9, 43);
+            this.crossSectionVisualizeRadioButton.Name = "crossSectionVisualizeRadioButton";
+            this.crossSectionVisualizeRadioButton.Size = new System.Drawing.Size(88, 17);
+            this.crossSectionVisualizeRadioButton.TabIndex = 1;
+            this.crossSectionVisualizeRadioButton.Tag = Sandpiles3D.Presenter.VisualizationMode.CrossSection;
+            this.crossSectionVisualizeRadioButton.Text = global::Sandpiles3D.SanpileStrings.visualization_mode_cross_section;
+            this.crossSectionVisualizeRadioButton.UseVisualStyleBackColor = true;
+            this.crossSectionVisualizeRadioButton.CheckedChanged += new System.EventHandler(this.visualizeRadioButton_CheckedChanged);
+            // 
+            // flattenVisualizeRadioButton
+            // 
+            this.flattenVisualizeRadioButton.AutoSize = true;
+            this.flattenVisualizeRadioButton.Checked = true;
+            this.flattenVisualizeRadioButton.Location = new System.Drawing.Point(9, 20);
+            this.flattenVisualizeRadioButton.Name = "flattenVisualizeRadioButton";
+            this.flattenVisualizeRadioButton.Size = new System.Drawing.Size(57, 17);
+            this.flattenVisualizeRadioButton.TabIndex = 0;
+            this.flattenVisualizeRadioButton.TabStop = true;
+            this.flattenVisualizeRadioButton.Tag = Sandpiles3D.Presenter.VisualizationMode.Flatten;
+            this.flattenVisualizeRadioButton.Text = global::Sandpiles3D.SanpileStrings.visualization_mode_flatten;
+            this.flattenVisualizeRadioButton.UseVisualStyleBackColor = true;
+            this.flattenVisualizeRadioButton.CheckedChanged += new System.EventHandler(this.visualizeRadioButton_CheckedChanged);
+            // 
             // Sandpiles3DRender
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1035, 668);
+            this.Controls.Add(this.visualizationGroupBox);
             this.Controls.Add(this.sizeGroupBox);
             this.Controls.Add(this.setValueGroup);
             this.Controls.Add(this.advancedSetupLabel);
@@ -365,6 +425,8 @@
             this.setValueGroup.PerformLayout();
             this.sizeGroupBox.ResumeLayout(false);
             this.sizeGroupBox.PerformLayout();
+            this.visualizationGroupBox.ResumeLayout(false);
+            this.visualizationGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -400,6 +462,10 @@
         private System.Windows.Forms.TextBox setZCoordinateTextBox;
         private System.Windows.Forms.TextBox setYCoordinateTextBox;
         private System.Windows.Forms.Label setValueLabel;
+        private System.Windows.Forms.GroupBox visualizationGroupBox;
+        private System.Windows.Forms.RadioButton threeDimensionVisualizeRadioButton;
+        private System.Windows.Forms.RadioButton crossSectionVisualizeRadioButton;
+        private System.Windows.Forms.RadioButton flattenVisualizeRadioButton;
     }
 }
 

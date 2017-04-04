@@ -180,5 +180,14 @@ namespace Sandpiles3D
                 e.Handled = true;
             }
         }
+
+        private void visualizeRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton b = sender as RadioButton;
+            if (b.Checked)
+            {
+                presenter.OnVisualizationChanged((Presenter.VisualizationMode)b.Tag);
+            }
+        }
     }
 }

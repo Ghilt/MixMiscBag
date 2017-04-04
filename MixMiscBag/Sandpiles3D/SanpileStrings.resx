@@ -135,4 +135,13 @@
   <data name="quick_access_top_left_back_7" xml:space="preserve">
     <value>TopLeftBack 7</value>
   </data>
+  <data name="visualization_mode_3D" xml:space="preserve">
+    <value>3D</value>
+  </data>
+  <data name="visualization_mode_cross_section" xml:space="preserve">
+    <value>Cross section</value>
+  </data>
+  <data name="visualization_mode_flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
 </root>

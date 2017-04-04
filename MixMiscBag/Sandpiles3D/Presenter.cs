@@ -11,7 +11,12 @@ namespace Sandpiles3D
     //inspiration http://people.reed.edu/~davidp/web_sandpiles/
     public class Presenter
     {
-
+        public enum VisualizationMode
+        {
+            Flatten,
+            CrossSection,
+            ThreeDimensions
+        }
         private static readonly Dictionary<string, Action<SandpilesCalculator>> startStateMap = new Dictionary<string, Action<SandpilesCalculator>>{
             { SanpileStrings.quick_access_fill_6, m => m.FillMax()},
             { SanpileStrings.quick_access_fill_7, m => m.Fill(7)},
@@ -21,6 +26,7 @@ namespace Sandpiles3D
             { SanpileStrings.quick_access_bottom_right_front_7, m => m.SetPosition(m.width - 1, m.height - 1, m.depth - 1, 7)},
         };
 
+        private VisualizationMode mode = VisualizationMode.Flatten;
         private long lastIterationDuration;
         private SandpilesCalculator model;
         private Sandpiles3DRender view;
@@ -98,9 +104,19 @@ namespace Sandpiles3D
 
         private void UpdateUiWithModelData(SandPilesIterationData d)
         {
+            switch (mode)
+            {
+                case VisualizationMode.Flatten:
+                    view.DrawSandpiles(d.dim2Projection);
+                    break;
+                case VisualizationMode.CrossSection:
+                    view.DrawSandpiles(model.GetCrossSection(model.width / 2, true, false, false));
+                    break;
+                case VisualizationMode.ThreeDimensions:
+                    //TODO
+                    break;
+            }
             view.updatePerformanceCounter(lastIterationDuration + "");
-            //view.DrawSandpiles(model.GetCrossSection(50, true, false, false));
-            view.DrawSandpiles(d.dim2Projection);
             view.SetIterationCounter(d.iteration + "");
         }
 
@@ -176,5 +192,11 @@ namespace Sandpiles3D
                 view.ShowDialog("Values not parseable to integer");
             }
         }
+
+        internal void OnVisualizationChanged(VisualizationMode mode)
+        {
+            this.mode = mode;
+        }
+
     }
 }

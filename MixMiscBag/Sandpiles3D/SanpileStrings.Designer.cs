@@ -113,5 +113,32 @@ namespace Sandpiles3D {
                 return ResourceManager.GetString("quick_access_top_left_back_7", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3D.
+        /// </summary>
+        internal static string visualization_mode_3D {
+            get {
+                return ResourceManager.GetString("visualization_mode_3D", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cross section.
+        /// </summary>
+        internal static string visualization_mode_cross_section {
+            get {
+                return ResourceManager.GetString("visualization_mode_cross_section", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flatten.
+        /// </summary>
+        internal static string visualization_mode_flatten {
+            get {
+                return ResourceManager.GetString("visualization_mode_flatten", resourceCulture);
+            }
+        }
     }
 }
