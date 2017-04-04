@@ -98,11 +98,7 @@ namespace Sandpiles3D
 
         private void AddDelta(int x, int y, int z)
         {
-            if (x < 0 || y < 0 || z < 0)
-            {
-                return;
-            }
-            else if (x >= width || y >= height || z >= depth)
+            if (!IsValidCoordinate(x, y, z))
             {
                 return;
             }
@@ -221,6 +217,22 @@ namespace Sandpiles3D
                 }
             }
             return new SandPilesIterationData(iterationCounter, projection);
+        }
+
+        internal bool IsValidCoordinate(int x, int y, int z)
+        {
+            if (x < 0 || y < 0 || z < 0)
+            {
+                return false;
+            }
+            else if (x >= width || y >= height || z >= depth)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         internal void FillValues(bool[] dimEnabled, int[] coords, int value)

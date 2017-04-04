@@ -99,7 +99,7 @@ namespace Sandpiles3D
         private void UpdateUiWithModelData(SandPilesIterationData d)
         {
             view.updatePerformanceCounter(lastIterationDuration + "");
-            //view.DrawSandpiles(model.GetCrossSection(CROSS_SECTION_TARGET / 4, true, false, false)); 
+            //view.DrawSandpiles(model.GetCrossSection(50, true, false, false));
             view.DrawSandpiles(d.dim2Projection);
             view.SetIterationCounter(d.iteration + "");
         }
@@ -115,7 +115,7 @@ namespace Sandpiles3D
                 watch.Stop();
                 lastIterationDuration = watch.ElapsedMilliseconds;
                 worker.ReportProgress(0, worker.model.Get2DProjection());
-            }   
+            }
         }
 
         internal void PerformSingleIteration(object sender, DoWorkEventArgs e)
@@ -163,9 +163,9 @@ namespace Sandpiles3D
             validInput = Int32.TryParse(yPosString, out yPos) && validInput;
             validInput = Int32.TryParse(zPosString, out zPos) && validInput;
             validInput = Int32.TryParse(valueString, out value) && validInput;
-            if (validInput)
+            if (validInput && model.IsValidCoordinate(xPos, yPos, zPos))
             {
-                model.FillValues(new bool[]{xEnabled, yEnabled, zEnabled}, new int[] {xPos, yPos, zPos}, value);
+                model.FillValues(new bool[] { xEnabled, yEnabled, zEnabled }, new int[] { xPos, yPos, zPos }, value);
             }
             else
             {

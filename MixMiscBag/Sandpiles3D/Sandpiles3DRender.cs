@@ -172,5 +172,13 @@ namespace Sandpiles3D
         {
             presenter.OnSetModelValue(setXDimensionCheckbox.Checked, setYDimensionCheckbox.Checked, setZDimensionCheckbox.Checked, setXCoordinateTextBox.Text, setYCoordinateTextBox.Text, setZCoordinateTextBox.Text, setValueTextBox.Text);
         }
+
+        private void textBox_Numeric_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
