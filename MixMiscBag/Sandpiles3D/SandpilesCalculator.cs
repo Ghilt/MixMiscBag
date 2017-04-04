@@ -191,6 +191,24 @@ namespace Sandpiles3D
             return new SandPilesIterationData(iterationCounter, projection);
         }
 
+        internal bool IsStable()
+        {
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    for (int z = 0; z < depth; z++)
+                    {
+                        if (space[x, y, z] > MAX_AMOUNT)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         internal int getMidX()
         {
             return width / 2;
