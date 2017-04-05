@@ -138,7 +138,7 @@ namespace Sandpiles3D
                 watch.Stop();
                 lastIterationDuration = watch.ElapsedMilliseconds;
                 worker.ReportProgress(0, worker.model.Get2DProjection());
-                if (lastIterationDuration < 20 && model.IsStable())
+                if (lastIterationDuration < 20 && worker.model.IsStable())
                 {
                     System.Threading.Thread.Sleep(100);
                 }
