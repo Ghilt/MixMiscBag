@@ -106,6 +106,15 @@ namespace Sandpiles3D {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RGB 7.
+        /// </summary>
+        internal static string quick_access_r_g_b_7 {
+            get {
+                return ResourceManager.GetString("quick_access_r_g_b_7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TopLeftBack 7.
         /// </summary>
         internal static string quick_access_top_left_back_7 {

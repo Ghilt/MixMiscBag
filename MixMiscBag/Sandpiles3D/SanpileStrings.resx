@@ -132,6 +132,9 @@
   <data name="quick_access_mid_7" xml:space="preserve">
     <value>Mid 7</value>
   </data>
+  <data name="quick_access_r_g_b_7" xml:space="preserve">
+    <value>RGB 7</value>
+  </data>
   <data name="quick_access_top_left_back_7" xml:space="preserve">
     <value>TopLeftBack 7</value>
   </data>

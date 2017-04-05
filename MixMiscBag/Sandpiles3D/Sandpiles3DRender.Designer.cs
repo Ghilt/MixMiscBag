@@ -122,7 +122,8 @@
             global::Sandpiles3D.SanpileStrings.quick_access_mid_7,
             global::Sandpiles3D.SanpileStrings.quick_access_mid_100,
             global::Sandpiles3D.SanpileStrings.quick_access_bottom_right_front_7,
-            global::Sandpiles3D.SanpileStrings.quick_access_top_left_back_7});
+            global::Sandpiles3D.SanpileStrings.quick_access_top_left_back_7,
+            global::Sandpiles3D.SanpileStrings.quick_access_r_g_b_7});
             this.startStateListBox.Location = new System.Drawing.Point(19, 243);
             this.startStateListBox.Name = "startStateListBox";
             this.startStateListBox.Size = new System.Drawing.Size(137, 95);

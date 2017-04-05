@@ -24,6 +24,13 @@ namespace Sandpiles3D
             { SanpileStrings.quick_access_mid_100, m => m.SetPosition(m.getMidX(), m.getMidY(), m.getMidZ(), 100)},
             { SanpileStrings.quick_access_top_left_back_7, m => m.SetPosition(0,0,0, 7)},
             { SanpileStrings.quick_access_bottom_right_front_7, m => m.SetPosition(m.width - 1, m.height - 1, m.depth - 1, 7)},
+            { SanpileStrings.quick_access_r_g_b_7, m => 
+                {
+                    m.FillValues(new bool[] { false, true, true }, new int[] { 0, (int) (m.height*0.1), (int)(m.depth*0.1) }, 7);
+                    m.FillValues(new bool[] { false, true, true }, new int[] { 0, (int) (m.height*0.5), (int)(m.depth*0.5) }, 7);
+                    m.FillValues(new bool[] { false, true, true }, new int[] { 0, (int) (m.height*0.9), (int)(m.depth*0.9) }, 7);
+                }
+            }
         };
 
         private VisualizationMode mode = VisualizationMode.Flatten;
