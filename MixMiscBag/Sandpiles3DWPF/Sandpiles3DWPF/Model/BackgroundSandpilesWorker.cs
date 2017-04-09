@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sandpiles3DWPF.Model
 {
-    class BackgroundSandpilesWorker
+    class BackgroundSandpilesWorker : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private SandpilesCalculator model;
         BackgroundWorker bw;
-        private long lastIterationDuration;
+        public long lastIterationDuration { get; private set; }
 
-        public BackgroundSandpilesWorker(SandpilesCalculator model)
+        public BackgroundSandpilesWorker(PropertyChangedEventHandler propertyChangedListener, SandpilesCalculator model)
         {
             this.model = model;
             bw = new BackgroundWorker();
+            PropertyChanged += propertyChangedListener;
+
         }
 
         internal void Iterate()
@@ -65,12 +69,18 @@ namespace Sandpiles3DWPF.Model
 
         private void IterationFinished(object sender, ProgressChangedEventArgs e)
         {
-            //TODO send duration maybe
+            OnPropertyChanged();
         }
 
         internal void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
         {
+            OnPropertyChanged();
+        }
 
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            //invoke if not null
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

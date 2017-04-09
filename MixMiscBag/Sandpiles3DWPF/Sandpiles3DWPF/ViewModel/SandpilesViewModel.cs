@@ -23,17 +23,26 @@ namespace Sandpiles3DWPF.ViewModel
             get { return sizeX; }
             set { sizeX = value; OnPropertyChanged(); }
         }
+
         private string sizeY;
         public string SizeY
         {
             get { return sizeY; }
             set { sizeY = value; OnPropertyChanged(); }
         }
+
         private string sizeZ;
         public string SizeZ
         {
             get { return sizeZ; }
             set { sizeZ = value; OnPropertyChanged(); }
+        }
+
+        private string iterationDuration;
+        public string IterationDuration
+        {
+            get { return iterationDuration; }
+            set { iterationDuration = value; OnPropertyChanged(); }
         }
 
         private WriteableBitmap image2D;
@@ -75,7 +84,7 @@ namespace Sandpiles3DWPF.ViewModel
             int height = 101;
             int depth = 31;
             model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
-            worker = new BackgroundSandpilesWorker(model);
+            worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
         }
 
         private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e) // TODO not sure if this is correct, may be missing all the value of mvvm. Something in me wanna connect the bound fields more directly to the fields in the model, with no backing fields for the accessors
@@ -91,7 +100,12 @@ namespace Sandpiles3DWPF.ViewModel
             else if (triggerMethod == nameof(SandpilesCalculator.Iterate))
             {
                 SandpilesCalculator m = sender as SandpilesCalculator;
-                Application.Current.Dispatcher.Invoke(() => DrawSandpiles(m)); // run on UI-thread
+                Application.Current?.Dispatcher.Invoke(() => DrawSandpiles(m)); // run on UI-thread
+            }
+            else if (triggerMethod == nameof(BackgroundSandpilesWorker.IterationFinished))
+            {
+                BackgroundSandpilesWorker w = sender as BackgroundSandpilesWorker;
+                IterationDuration = "" + w.lastIterationDuration;
             }
         }
 

@@ -28,11 +28,6 @@ namespace Sandpiles3DWPF
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            ReferedToTextBox.Text = "Well ez";
-        }
-
         private void SanpilesViewControl_Loaded(object sender, RoutedEventArgs e)
         {
             ViewModel.SandpilesViewModel sandpilesViewModel = new ViewModel.SandpilesViewModel();

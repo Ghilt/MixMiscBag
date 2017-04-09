@@ -4,20 +4,63 @@
    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006" 
    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
    xmlns:local = "clr-namespace:Sandpiles3DWPF.View" 
-   mc:Ignorable = "d" 
-   d:DesignHeight = "299" d:DesignWidth = "299">
+   mc:Ignorable = "d" Height="680" Width="707">
 
     <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="123*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="90*"/>
             <ColumnDefinition Width="209*"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox Text = "{Binding SizeX, Mode=TwoWay}" Margin="0,46,5,235" Height="18" Width="85"/>
-        <TextBox Text = "{Binding SizeY, Mode=TwoWay}" Margin="0,23,5,258" Width="85" Height="18"/>
-        <TextBox Text = "{Binding SizeZ, Mode=TwoWay}" Margin="0,0,5,281" Width="85" Height="18"/>
-        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Margin="10,10,48,144" Grid.Column="1"/>
-        <Button x:Name="StartIterateButton" Margin="0,69,5,211" Width="85" Height="18" Content="Start iterate&#xD;&#xA;" Command="{Binding StartIterationCommand}"/>
+
+        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Margin="10,10,48,144" Grid.Column="1" Grid.RowSpan="2"/>
+        <Button x:Name="StartIterateButton" Width="85" Height="18" Content="Start iterate&#xD;&#xA;" Command="{Binding StartIterationCommand}" Grid.Row="1"/>
+        <TextBox Text = "{Binding IterationDuration, Mode=OneWay}" Margin="0,0,48,121" Height="18" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="64" Grid.Row="1"/>
+
+        <GroupBox Header="Size&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="124" Width="177">
+            <Grid Margin="0,0,0,-12" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" x:Name="sizeXLabel" Content="X" />
+                <Label Grid.Row="1" Grid.Column="0" x:Name="sizeYLabel" Content="Y" />
+                <Label Grid.Row="2" Grid.Column="0" x:Name="sizeZLabel" Content="Z" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding SizeX, Mode=TwoWay}" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding SizeY, Mode=TwoWay}"  />
+                <TextBox Grid.Row="2" Grid.Column="1" Text = "{Binding SizeZ, Mode=TwoWay}"/>
+            </Grid >
+        </GroupBox>
+
+
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Advanced setup&#xD;&#xA;" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="128" Width="177">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" x:Name="wefd" Content="X" />
+                <Label Grid.Row="1" Grid.Column="0" x:Name="sdfsd" Content="Y" />
+                <Label Grid.Row="2" Grid.Column="0" x:Name="sd7fsd" Content="Z" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text = "j" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text = "sdf"  />
+                <TextBox Grid.Row="2" Grid.Column="1" Text = "sdf"/>
+            </Grid >
+        </GroupBox>
 
     </Grid>
 

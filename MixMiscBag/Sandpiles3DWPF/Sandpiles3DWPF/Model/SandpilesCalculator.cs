@@ -44,7 +44,8 @@ namespace Sandpiles3DWPF.Model
                 multipliers[z, 2] = 1 - Math.Abs((1 - z / midPoint));
             }
             PropertyChanged += propertyChangedListener;
-            Fill(MAX_AMOUNT+1);
+            Fill(MAX_AMOUNT);
+            SetPosition(46, 6, 6, 9);
             AllPropertiesChanged();
 
         }
@@ -56,10 +57,8 @@ namespace Sandpiles3DWPF.Model
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            //invoke if not null
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Fill(int value)

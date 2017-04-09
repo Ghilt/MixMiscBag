@@ -6,29 +6,11 @@
         xmlns:local="clr-namespace:Sandpiles3DWPF"
         xmlns:myViews="clr-namespace:Sandpiles3DWPF.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="627.083" Width="877.083">
-    <Grid Margin="0,0,-39,-65">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="591*"/>
-            <ColumnDefinition Width="317*"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock x:Name="ReferedToTextBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="72" Margin="221,0,305,557" Grid.ColumnSpan="2" Height="94" Width="382">
-                        Hello, WPF!
-        </TextBlock>
+        Title="MainWindow" Height="893.958" Width="1190.666">
+    <StackPanel Margin="0,10,0,0">
 
-        <myViews:StudentView x:Name = "StudentViewControl" Loaded = "StudentViewControl_Loaded" Margin="50,109,117,343" Grid.ColumnSpan="2" Visibility="Hidden"/>
+        <myViews:SandpilesView x:Name = "SandpilesViewControl" Loaded = "SanpilesViewControl_Loaded" BorderThickness="1" Width="1183" HorizontalAlignment="Left" VerticalAlignment="Top" Height="847"  />
+        <myViews:StudentView x:Name = "StudentViewControl" Loaded = "StudentViewControl_Loaded" Visibility="Collapsed"/>
 
-        <myViews:SandpilesView x:Name = "SandpilesViewControl" Loaded = "SanpilesViewControl_Loaded" Grid.ColumnSpan="2" BorderThickness="1"/>
-
-        <Button Margin="293,489,0,122" Click="Button_Click" >
-            <Button.FontWeight>Bold</Button.FontWeight>
-            <Button.Content>
-                <WrapPanel>
-                    <TextBlock Foreground="Blue">Multi</TextBlock>
-                    <TextBlock Foreground="Red">Color</TextBlock>
-                    <TextBlock>Button</TextBlock>
-                </WrapPanel>
-            </Button.Content>
-        </Button>
-    </Grid>
+    </StackPanel>
 </Window>
