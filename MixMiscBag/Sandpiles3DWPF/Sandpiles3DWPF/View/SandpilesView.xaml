@@ -5,15 +5,20 @@
    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008" 
    xmlns:local = "clr-namespace:Sandpiles3DWPF.View" 
    mc:Ignorable = "d" 
-   d:DesignHeight = "300" d:DesignWidth = "300">
+   d:DesignHeight = "299" d:DesignWidth = "299">
 
     <Grid >
-        <StackPanel HorizontalAlignment = "Left" Margin="10,10,-150,10" Width="440">
-            <TextBox Text = "{Binding SizeX, Mode=TwoWay}" Margin="0,0,225,0"/>
-            <TextBox Text = "{Binding SizeY, Mode=TwoWay}" Margin="0,0,225,0"/>
-            <TextBox Text = "{Binding SizeZ, Mode=TwoWay}" Margin="0,0,225,0"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="209*"/>
+        </Grid.ColumnDefinitions>
 
-        </StackPanel>
+        <TextBox Text = "{Binding SizeX, Mode=TwoWay}" Margin="0,46,5,235" Height="18" Width="85"/>
+        <TextBox Text = "{Binding SizeY, Mode=TwoWay}" Margin="0,23,5,258" Width="85" Height="18"/>
+        <TextBox Text = "{Binding SizeZ, Mode=TwoWay}" Margin="0,0,5,281" Width="85" Height="18"/>
+        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Margin="10,10,48,144" Grid.Column="1"/>
+        <Button x:Name="StartIterateButton" Margin="0,69,5,211" Width="85" Height="18" Content="Start iterate&#xD;&#xA;" Command="{Binding StartIterationCommand}"/>
+
     </Grid>
 
 </UserControl>

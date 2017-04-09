@@ -18,7 +18,7 @@
 
         <myViews:StudentView x:Name = "StudentViewControl" Loaded = "StudentViewControl_Loaded" Margin="50,109,117,343" Grid.ColumnSpan="2" Visibility="Hidden"/>
 
-        <myViews:SandpilesView x:Name = "SandpilesViewControl" Loaded = "SanpilesViewControl_Loaded" Margin="58,336,109,196" Grid.ColumnSpan="2" BorderThickness="1"/>
+        <myViews:SandpilesView x:Name = "SandpilesViewControl" Loaded = "SanpilesViewControl_Loaded" Grid.ColumnSpan="2" BorderThickness="1"/>
 
         <Button Margin="293,489,0,122" Click="Button_Click" >
             <Button.FontWeight>Bold</Button.FontWeight>
