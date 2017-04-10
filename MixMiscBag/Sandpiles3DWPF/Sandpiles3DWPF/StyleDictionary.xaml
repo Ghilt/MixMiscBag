@@ -13,5 +13,6 @@
 
     <Style TargetType="GroupBox">
         <Setter Property="Width" Value="200" />
+        <Setter Property="Margin" Value="10" />
     </Style>
 </ResourceDictionary>
