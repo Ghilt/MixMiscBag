@@ -8,21 +8,24 @@
 
     <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="47*"/>
-            <RowDefinition Height="123*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="90*"/>
-            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
 
-        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Margin="10,10,48,144" Grid.Column="1" Grid.RowSpan="2"/>
-        <Button x:Name="StartIterateButton" Width="85" Height="18" Content="Start iterate&#xD;&#xA;" Command="{Binding StartIterationCommand}" Grid.Row="1"/>
+        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Width="500" Height="500"/>
         <TextBox Text = "{Binding IterationDuration, Mode=OneWay}" Margin="0,0,48,121" Height="18" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="64" Grid.Row="1"/>
 
-        <GroupBox Header="Size&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="124" Width="177">
-            <Grid Margin="0,0,0,-12" >
+        <GroupBox Header="Size&#xD;&#xA;" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="124">
+            <Grid >
+                <Grid.Resources>
+                    <Style BasedOn="{StaticResource GroupedStyle}" TargetType="{x:Type TextBox}" />
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -42,9 +45,13 @@
         </GroupBox>
 
 
-        <GroupBox Grid.Row="1" Grid.Column="0" Header="Advanced setup&#xD;&#xA;" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="128" Width="177">
+        <GroupBox Grid.Row="1" Grid.Column="0" Header="Advanced setup&#xD;&#xA;" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="161">
             <Grid >
+                <Grid.Resources>
+                    <Style BasedOn="{StaticResource GroupedStyle}" TargetType="{x:Type TextBox}" />
+                </Grid.Resources>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -52,15 +59,22 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" x:Name="wefd" Content="X" />
-                <Label Grid.Row="1" Grid.Column="0" x:Name="sdfsd" Content="Y" />
-                <Label Grid.Row="2" Grid.Column="0" x:Name="sd7fsd" Content="Z" />
-                <TextBox Grid.Row="0" Grid.Column="1" Text = "j" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text = "sdf"  />
-                <TextBox Grid.Row="2" Grid.Column="1" Text = "sdf"/>
+                <Label Grid.Row="0" Grid.Column="0" Content="X" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Y" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Z" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Value" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text = "0" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text = "0" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text = "0"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Text = "0"/>
+                <Button Grid.Row="3" Grid.Column="2" Command="{Binding StartIterationCommand}" Content="Set value"/>
             </Grid >
         </GroupBox>
+
+        <Button x:Name="StartIterateButton" Content="Start iterate" Command="{Binding StartIterationCommand}" Grid.Row="2" Grid.Column="0"/>
+
 
     </Grid>
 
