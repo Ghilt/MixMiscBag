@@ -18,7 +18,12 @@
 
 
         <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}"  Grid.Column="1" Grid.Row="0" Width="500" Height="500"/>
-        <TextBox Text = "{Binding IterationDuration, Mode=OneWay}" Height="18" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="64" Grid.Row="1"/>
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" >
+            <Label Content="Iteration:" />
+            <TextBox Text = "{Binding NumberOfIterations, Mode=OneWay}" Height="18"  Width="64"/>
+            <Label Content=" Duration:" />
+            <TextBox Text = "{Binding IterationDuration, Mode=OneWay}" Height="18"  Width="64"/>
+        </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <GroupBox  Header="Visualization" >
@@ -32,9 +37,9 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <RadioButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <RadioButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" />
                     <RadioButton Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <RadioButton Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <RadioButton Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
                     <Label Grid.Row="0" Grid.Column="1" Content="Flatten" />
                     <Label Grid.Row="1" Grid.Column="1" Content="Cross section" />
                     <Label Grid.Row="2" Grid.Column="1" Content="3D" IsEnabled="False" />
@@ -113,7 +118,7 @@
                     <TextBox Grid.Row="1" Grid.Column="1" Text = "0" />
                     <TextBox Grid.Row="2" Grid.Column="1" Text = "0"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Text = "0"/>
-                    <Button Grid.Row="3" Grid.Column="2" Command="{Binding StartIterationCommand}" Content="Set value"/>
+                    <Button Grid.Row="3" Grid.Column="2" Command="{Binding SetValueCommand}" Content="Set value"/>
                 </Grid >
             </GroupBox>
 
@@ -128,8 +133,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button Grid.Column="0" x:Name="StartIterateButton" Content="Start iterate" Command="{Binding StartIterationCommand}" />
-                    <Button Grid.Column="1" Content="Iterate one" Command="{Binding StartIterationCommand}" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Button Grid.Column="0" Grid.Row="0" Content="Start iterate" Command="{Binding StartIterationCommand}" IsEnabled="{Binding IsIterating, Converter={StaticResource invertBoolConverter}}" />
+                    <Button Grid.Column="1" Grid.Row="0" Content="Stop iterate" Command="{Binding StopIterationCommand}" IsEnabled="{Binding IsIterating}"/>
+                        <Button Grid.Column="0" Grid.Row="1" Content="Iterate one" Command="{Binding IterateOneCommand}" IsEnabled="{Binding IsIterating}"/>
 
                 </Grid >
             </GroupBox>

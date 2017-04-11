@@ -60,15 +60,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\BackgroundSandpilesWorker.cs" />
-    <Compile Include="Model\StudentModel.cs" />
+    <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SandpilesViewModel.cs" />
-    <Compile Include="ViewModel\StudentsViewModel.cs" />
     <Compile Include="View\SandpilesView.xaml.cs">
       <DependentUpon>SandpilesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\StudentView.xaml.cs">
-      <DependentUpon>StudentView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -89,10 +85,6 @@
     <Page Include="View\SandpilesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\StudentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -10,17 +10,23 @@ namespace Sandpiles3DWPF.Model
 {
     class BackgroundSandpilesWorker : INotifyPropertyChanged
     {
+        public const string PROPERTY_CHANGED_ITERATION_FINISHED = "Property_changed_iteration_finished";
+        public const string PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED = "Property_changed_continuous_cancelled";
+
         public event PropertyChangedEventHandler PropertyChanged;
         private SandpilesCalculator model;
         BackgroundWorker bw;
         public long lastIterationDuration { get; private set; }
+        public SandpilesIterationData iterationData { get; private set; }
 
         public BackgroundSandpilesWorker(PropertyChangedEventHandler propertyChangedListener, SandpilesCalculator model)
         {
             this.model = model;
             bw = new BackgroundWorker();
-            PropertyChanged += propertyChangedListener;
+            bw.WorkerReportsProgress = true;
+            bw.WorkerSupportsCancellation = true;
 
+            PropertyChanged += propertyChangedListener;
         }
 
         internal void Iterate()
@@ -32,11 +38,14 @@ namespace Sandpiles3DWPF.Model
 
         internal void StartIteration()
         {
-            bw.WorkerReportsProgress = true;
-            bw.WorkerSupportsCancellation = true;
             bw.DoWork += PerformContinousIteration;
             bw.ProgressChanged += IterationFinished;
             bw.RunWorkerAsync();
+        }
+
+        internal void StopIteration()
+        {
+            bw.CancelAsync();
         }
 
         internal void PerformSingleIteration(object sender, DoWorkEventArgs e)
@@ -65,23 +74,37 @@ namespace Sandpiles3DWPF.Model
                     System.Threading.Thread.Sleep(100);
                 }
             }
+            OnPropertyChanged(PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED);
+            workerStoppedClearCallbacks();
+            e.Cancel = true; // what does this do?
+        }
+
+        private void workerStoppedClearCallbacks()
+        {
+            //Remove all possible callbacks
+            bw.DoWork -= PerformSingleIteration;
+            bw.RunWorkerCompleted -= IterationFinished;
+            bw.DoWork -= PerformContinousIteration;
+            bw.ProgressChanged -= IterationFinished;
         }
 
         private void IterationFinished(object sender, ProgressChangedEventArgs e)
         {
-            OnPropertyChanged();
+            iterationData = e.UserState as SandpilesIterationData;
+            OnPropertyChanged(PROPERTY_CHANGED_ITERATION_FINISHED);
         }
 
-        internal void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
+        private void IterationFinished(object sender, RunWorkerCompletedEventArgs e)
         {
-            OnPropertyChanged();
+            iterationData = e.Result as SandpilesIterationData;
+            workerStoppedClearCallbacks();
+            OnPropertyChanged(PROPERTY_CHANGED_ITERATION_FINISHED);
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") 
         {
             //invoke if not null
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

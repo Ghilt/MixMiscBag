@@ -38,11 +38,25 @@ namespace Sandpiles3DWPF.ViewModel
             set { sizeZ = value; OnPropertyChanged(); }
         }
 
+        private bool isIterating;
+        public bool IsIterating
+        {
+            get { return isIterating; }
+            set { isIterating = value; OnPropertyChanged(); }
+        }
+
         private string iterationDuration;
         public string IterationDuration
         {
             get { return iterationDuration; }
             set { iterationDuration = value; OnPropertyChanged(); }
+        }
+
+        private string numberOfIterations;
+        public string NumberOfIterations
+        {
+            get { return numberOfIterations; }
+            set { numberOfIterations = value; OnPropertyChanged(); }
         }
 
         private WriteableBitmap image2D;
@@ -63,20 +77,27 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                if (startIterationCommand == null) //I find this very ugly
-                {
-                    startIterationCommand = new RelayCommand(p => this.StartIterate(), p => true );
-                }
-                return startIterationCommand;
+                return startIterationCommand = startIterationCommand ?? new RelayCommand(p => { worker.StartIteration(); IsIterating = true; }, p => true );
             }
         }
 
-
-        private void StartIterate()
+        private ICommand stopIterationCommand;
+        public ICommand StopIterationCommand
         {
-            worker.StartIteration();
+            get
+            {
+                return stopIterationCommand = stopIterationCommand ?? new RelayCommand(p => worker.StopIteration(), p => true);
+            }
         }
 
+        private ICommand iterateOneCommand;
+        public ICommand IterateOneCommand
+        {
+            get
+            {
+                return iterateOneCommand = iterateOneCommand ?? new RelayCommand(p => worker.Iterate(), p => true);
+            }
+        }
 
         public void LoadSandpiles()
         {
@@ -97,21 +118,21 @@ namespace Sandpiles3DWPF.ViewModel
                 SizeY = "" + m.height;
                 SizeZ = "" + m.depth;
             }
-            else if (triggerMethod == nameof(SandpilesCalculator.Iterate))
-            {
-                SandpilesCalculator m = sender as SandpilesCalculator;
-                Application.Current?.Dispatcher.Invoke(() => DrawSandpiles(m)); // run on UI-thread
-            }
-            else if (triggerMethod == nameof(BackgroundSandpilesWorker.IterationFinished))
+            else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_ITERATION_FINISHED)
             {
                 BackgroundSandpilesWorker w = sender as BackgroundSandpilesWorker;
                 IterationDuration = "" + w.lastIterationDuration;
+                NumberOfIterations = "" + w.iterationData.iteration;
+                Application.Current?.Dispatcher.Invoke(() => DrawSandpiles(w.iterationData.dim2Projection)); // run on UI-thread
+            }
+            else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED)
+            {
+                IsIterating = false;
             }
         }
 
-        public void DrawSandpiles(SandpilesCalculator m)
+        public void DrawSandpiles(Color[,] projection)
         {
-            Color[,] projection = m.Get2DProjection().dim2Projection;
             using (image2D.GetBitmapContext())
             {
                 for (int x = 0; x < image2D.Width; x++)

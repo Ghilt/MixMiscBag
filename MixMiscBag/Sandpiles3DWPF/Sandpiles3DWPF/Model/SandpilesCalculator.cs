@@ -55,7 +55,7 @@ namespace Sandpiles3DWPF.Model
             OnPropertyChanged();
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") //This system is pretty un-utilized and unnecessary, should do consts instead
         {
             //invoke if not null
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -104,7 +104,6 @@ namespace Sandpiles3DWPF.Model
                 }
             }
             iterationCounter++;
-            OnPropertyChanged();
         }
 
         private void Collapse(int x, int y, int z)

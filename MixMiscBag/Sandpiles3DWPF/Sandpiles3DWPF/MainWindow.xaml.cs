@@ -37,12 +37,5 @@ namespace Sandpiles3DWPF
             
         }
 
-        private void StudentViewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            ViewModel.StudentsViewModel studentViewModelObject = new ViewModel.StudentsViewModel();
-            studentViewModelObject.LoadStudents();
-
-            StudentViewControl.DataContext = studentViewModelObject;
-        }
     }
 }
