@@ -44,8 +44,6 @@ namespace Sandpiles3DWPF.Model
                 multipliers[z, 2] = 1 - Math.Abs((1 - z / midPoint));
             }
             PropertyChanged += propertyChangedListener;
-            Fill(MAX_AMOUNT);
-            SetPosition(46, 6, 6, 9);
             AllPropertiesChanged();
 
         }

@@ -17,35 +17,22 @@ namespace Sandpiles3DWPF.ViewModel
         private SandpilesCalculator model;
         private BackgroundSandpilesWorker worker;
 
-        private int sizeX;
-        public string SizeX
-        {
-            get { return "" + sizeX; }
-            set { sizeX = Int32.Parse(value); OnPropertyChanged(); }
-        }
+        #region Size control
 
-        private int sizeY;
-        public string SizeY
-        {
-            get { return "" + sizeY; }
-            set { sizeY = Int32.Parse(value); OnPropertyChanged(); }
-        }
-
-        private int sizeZ;
-        public string SizeZ
-        {
-            get { return "" + sizeZ; }
-            set { sizeZ = Int32.Parse(value); OnPropertyChanged(); }
-        }
+        public ObservableField<string>[] SizeDim { get; set; }
 
         private ICommand setSizeCommand;
         public ICommand SetSizeCommand
         {
             get
             {
-                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(sizeX, sizeY, sizeZ));
+                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(SizeDim[0].ToInt(), SizeDim[1].ToInt(), SizeDim[2].ToInt()));
             }
         }
+
+        #endregion //Size
+
+        #region Quick menu control
 
         private ICommand[] quickMenuCommand; // make this data fill a data grid later google datagrid
         public ICommand[] QuickMenuCommand
@@ -76,6 +63,10 @@ namespace Sandpiles3DWPF.ViewModel
              })};
         }
 
+        #endregion //Quick
+
+        #region Advanced settings control
+        
         private bool xCoordEnabled = true;
         public bool XCoordEnabled
         {
@@ -99,21 +90,21 @@ namespace Sandpiles3DWPF.ViewModel
         public string SetXCoord
         {
             get { return "" + setXCoord; }
-            set { setXCoord = CapStringNumber(value, sizeX); OnPropertyChanged(); }
+            set { setXCoord = CapStringNumber(value, SizeDim[0].ToInt()); OnPropertyChanged(); }
         }
 
         private int setYCoord;
         public string SetYCoord
         {
             get { return "" + setYCoord; }
-            set { setYCoord = CapStringNumber(value, sizeY); OnPropertyChanged(); }
+            set { setYCoord = CapStringNumber(value, SizeDim[1].ToInt()); OnPropertyChanged(); }
         }
 
         private int setZCoord;
         public string SetZCoord
         {
             get { return "" + setZCoord; }
-            set { setZCoord = CapStringNumber(value, sizeZ); OnPropertyChanged(); }
+            set { setZCoord = CapStringNumber(value, SizeDim[2].ToInt()); OnPropertyChanged(); }
         }
 
         private int setCoordValue;
@@ -135,30 +126,10 @@ namespace Sandpiles3DWPF.ViewModel
             }
         }
 
-        private WriteableBitmap image2D;
-        public WriteableBitmap Image2D
-        {
-            get
-            {
-                return image2D = image2D ?? BitmapFactory.New(model.width, model.height);
-            }
-            set { image2D = value; OnPropertyChanged(); }
-        }
+        #endregion //Advanced
 
-        private int iterationDuration;
-        public string IterationDuration
-        {
-            get { return "" + iterationDuration; }
-            set { iterationDuration = Int32.Parse(value); OnPropertyChanged(); }
-        }
-
-        private int numberOfIterations;
-        public string NumberOfIterations
-        {
-            get { return "" + numberOfIterations; }
-            set { numberOfIterations = Int32.Parse(value); OnPropertyChanged(); }
-        }
-
+        #region Iteration control
+        
         private ICommand startIterationCommand;
         public ICommand StartIterationCommand
         {
@@ -191,6 +162,41 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get { return isIterating; }
             set { isIterating = value; OnPropertyChanged(); }
+        }
+
+        #endregion // iteration
+
+        #region Render control
+
+        private WriteableBitmap image2D;
+        public WriteableBitmap Image2D
+        {
+            get
+            {
+                return image2D = image2D ?? BitmapFactory.New(model.width, model.height);
+            }
+            set { image2D = value; OnPropertyChanged(); }
+        }
+
+        private int iterationDuration;
+        public string IterationDuration
+        {
+            get { return "" + iterationDuration; }
+            set { iterationDuration = Int32.Parse(value); OnPropertyChanged(); }
+        }
+
+        private int numberOfIterations;
+        public string NumberOfIterations
+        {
+            get { return "" + numberOfIterations; }
+            set { numberOfIterations = Int32.Parse(value); OnPropertyChanged(); }
+        }
+
+        #endregion // render
+
+        public SandpilesViewModel()
+        {
+            SizeDim = ObservableField<string>.CreateFields(3);
         }
 
         public void LoadSandpiles(int width, int height, int depth)
@@ -228,9 +234,9 @@ namespace Sandpiles3DWPF.ViewModel
             if (null != sender as SandpilesCalculator)
             {
                 SandpilesCalculator m = sender as SandpilesCalculator;
-                SizeX = "" + m.width;
-                SizeY = "" + m.height;
-                SizeZ = "" + m.depth;
+                SizeDim[0].Value = "" + m.width;
+                SizeDim[1].Value = "" + m.height;
+                SizeDim[2].Value = "" + m.depth;
             }
             else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_ITERATION_FINISHED)
             {
