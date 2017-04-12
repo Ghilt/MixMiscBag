@@ -114,11 +114,11 @@
                     <Label Grid.Row="1" Grid.Column="0" Content="Y" />
                     <Label Grid.Row="2" Grid.Column="0" Content="Z" />
                     <Label Grid.Row="3" Grid.Column="0" Content="Value" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text = "0" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text = "0" />
-                    <TextBox Grid.Row="2" Grid.Column="1" Text = "0"/>
-                    <TextBox Grid.Row="3" Grid.Column="1" Text = "0"/>
-                    <Button Grid.Row="3" Grid.Column="2" Command="{Binding SetValueCommand}" Content="Set value"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding SetXCoord, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding SetYCoord, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text = "{Binding SetZCoord, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" Text = "{Binding SetCoordValue, Mode=TwoWay}"/>
+                    <Button Grid.Row="3" Grid.Column="2" Command="{Binding SetCoordValueCommand}" Content="Set value"/>
                 </Grid >
             </GroupBox>
 
@@ -139,7 +139,7 @@
                     </Grid.RowDefinitions>
                     <Button Grid.Column="0" Grid.Row="0" Content="Start iterate" Command="{Binding StartIterationCommand}" IsEnabled="{Binding IsIterating, Converter={StaticResource invertBoolConverter}}" />
                     <Button Grid.Column="1" Grid.Row="0" Content="Stop iterate" Command="{Binding StopIterationCommand}" IsEnabled="{Binding IsIterating}"/>
-                        <Button Grid.Column="0" Grid.Row="1" Content="Iterate one" Command="{Binding IterateOneCommand}" IsEnabled="{Binding IsIterating}"/>
+                    <Button Grid.Column="0" Grid.Row="1" Content="Iterate one" Command="{Binding IterateOneCommand}" IsEnabled="{Binding IsIterating, Converter={StaticResource invertBoolConverter}}"/>
 
                 </Grid >
             </GroupBox>

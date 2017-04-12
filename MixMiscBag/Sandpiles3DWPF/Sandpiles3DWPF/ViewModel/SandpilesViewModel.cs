@@ -17,67 +17,94 @@ namespace Sandpiles3DWPF.ViewModel
         private SandpilesCalculator model;
         private BackgroundSandpilesWorker worker;
 
-        private string sizeX;
+        private int sizeX;
         public string SizeX
         {
-            get { return sizeX; }
-            set { sizeX = value; OnPropertyChanged(); }
+            get { return "" + sizeX; }
+            set { sizeX = Int32.Parse(value); OnPropertyChanged(); }
         }
 
-        private string sizeY;
+        private int sizeY;
         public string SizeY
         {
-            get { return sizeY; }
-            set { sizeY = value; OnPropertyChanged(); }
+            get { return "" + sizeY; }
+            set { sizeY = Int32.Parse(value); OnPropertyChanged(); }
         }
 
-        private string sizeZ;
+        private int sizeZ;
         public string SizeZ
         {
-            get { return sizeZ; }
-            set { sizeZ = value; OnPropertyChanged(); }
+            get { return "" + sizeZ; }
+            set { sizeZ = Int32.Parse(value); OnPropertyChanged(); }
         }
 
-        private bool isIterating;
-        public bool IsIterating
+        private int setXCoord;
+        public string SetXCoord
         {
-            get { return isIterating; }
-            set { isIterating = value; OnPropertyChanged(); }
+            get { return "" + setXCoord; }
+            set { setXCoord = CapStringNumber(value, sizeX); OnPropertyChanged(); }
         }
 
-        private string iterationDuration;
-        public string IterationDuration
+        private int setYCoord;
+        public string SetYCoord
         {
-            get { return iterationDuration; }
-            set { iterationDuration = value; OnPropertyChanged(); }
+            get { return "" + setYCoord; }
+            set { setYCoord = CapStringNumber(value, sizeY); OnPropertyChanged(); }
         }
 
-        private string numberOfIterations;
-        public string NumberOfIterations
+        private int setZCoord;
+        public string SetZCoord
         {
-            get { return numberOfIterations; }
-            set { numberOfIterations = value; OnPropertyChanged(); }
+            get { return "" + setZCoord; }
+            set { setZCoord = CapStringNumber(value, sizeZ); OnPropertyChanged(); }
+        }
+
+        private int setCoordValue;
+        public string SetCoordValue
+        {
+            get { return "" + setCoordValue; }
+            set { setCoordValue = Int32.Parse(value); OnPropertyChanged(); }
+        }
+
+        private ICommand setCoordValueCommand;
+        public ICommand SetCoordValueCommand
+        {
+            get
+            {
+                return setCoordValueCommand = setCoordValueCommand ?? new RelayCommand(p => model.SetPosition(setXCoord,setYCoord,setZCoord, setCoordValue), p => true);
+            }
         }
 
         private WriteableBitmap image2D;
         public WriteableBitmap Image2D
         {
-            get {
-                if (image2D == null) 
-                {
-                    image2D = BitmapFactory.New(model.width, model.height);
-                }
-                return image2D;
+            get
+            {
+                return image2D = image2D ?? BitmapFactory.New(model.width, model.height);
             }
             set { image2D = value; OnPropertyChanged(); }
         }
 
-        private ICommand startIterationCommand; 
+        private int iterationDuration;
+        public string IterationDuration
+        {
+            get { return "" + iterationDuration; }
+            set { iterationDuration = Int32.Parse(value); OnPropertyChanged(); }
+        }
+
+        private int numberOfIterations;
+        public string NumberOfIterations
+        {
+            get { return "" + numberOfIterations; }
+            set { numberOfIterations = Int32.Parse(value); OnPropertyChanged(); }
+        }
+
+        private ICommand startIterationCommand;
         public ICommand StartIterationCommand
         {
             get
             {
-                return startIterationCommand = startIterationCommand ?? new RelayCommand(p => { worker.StartIteration(); IsIterating = true; }, p => true );
+                return startIterationCommand = startIterationCommand ?? new RelayCommand(p => { worker.StartIteration(); IsIterating = true; }, p => true);
             }
         }
 
@@ -99,6 +126,13 @@ namespace Sandpiles3DWPF.ViewModel
             }
         }
 
+        private bool isIterating;
+        public bool IsIterating
+        {
+            get { return isIterating; }
+            set { isIterating = value; OnPropertyChanged(); }
+        }
+
         public void LoadSandpiles()
         {
             int width = 101;
@@ -108,10 +142,15 @@ namespace Sandpiles3DWPF.ViewModel
             worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
         }
 
+        private int CapStringNumber(string number, int maxNumber)
+        {
+            return Int32.Parse(number) >= maxNumber ? maxNumber - 1 : Int32.Parse(number);
+        }
+
         private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e) // TODO not sure if this is correct, may be missing all the value of mvvm. Something in me wanna connect the bound fields more directly to the fields in the model, with no backing fields for the accessors
         {
             string triggerMethod = e.PropertyName;
-            if (triggerMethod == nameof(SandpilesCalculator.AllPropertiesChanged))
+            if (null != sender as SandpilesCalculator)
             {
                 SandpilesCalculator m = sender as SandpilesCalculator;
                 SizeX = "" + m.width;
@@ -123,7 +162,10 @@ namespace Sandpiles3DWPF.ViewModel
                 BackgroundSandpilesWorker w = sender as BackgroundSandpilesWorker;
                 IterationDuration = "" + w.lastIterationDuration;
                 NumberOfIterations = "" + w.iterationData.iteration;
-                Application.Current?.Dispatcher.Invoke(() => DrawSandpiles(w.iterationData.dim2Projection)); // run on UI-thread
+                if (Application.Current != null)
+                {
+                    Application.Current.Dispatcher.Invoke(() => DrawSandpiles(w.iterationData.dim2Projection)); // run on UI-thread
+                }
             }
             else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED)
             {
