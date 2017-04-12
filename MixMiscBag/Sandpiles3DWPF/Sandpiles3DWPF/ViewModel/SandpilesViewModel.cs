@@ -38,19 +38,28 @@ namespace Sandpiles3DWPF.ViewModel
             set { sizeZ = Int32.Parse(value); OnPropertyChanged(); }
         }
 
-        private bool xCoordEnabled;
+        private ICommand setSizeCommand;
+        public ICommand SetSizeCommand
+        {
+            get
+            {
+                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(sizeX, sizeY, sizeZ), p => true);
+            }
+        }
+
+        private bool xCoordEnabled = true;
         public bool XCoordEnabled
         {
             get { return xCoordEnabled; }
             set { xCoordEnabled = value; OnPropertyChanged(); }
         }
-        private bool yCoordEnabled;
+        private bool yCoordEnabled = true;
         public bool YCoordEnabled
         {
             get { return yCoordEnabled; }
             set { yCoordEnabled = value; OnPropertyChanged(); }
         }
-        private bool zCoordEnabled;
+        private bool zCoordEnabled = true;
         public bool ZCoordEnabled
         {
             get { return zCoordEnabled; }
@@ -155,13 +164,28 @@ namespace Sandpiles3DWPF.ViewModel
             set { isIterating = value; OnPropertyChanged(); }
         }
 
-        public void LoadSandpiles()
+        public void LoadSandpiles(int width, int height, int depth)
         {
-            int width = 101;
-            int height = 101;
-            int depth = 31;
             model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
             worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
+            
+        }
+
+        public void ReSize(int width, int height, int depth) // Find better way to reset to initial state
+        {
+            setSizeCommand = null;
+            startIterationCommand = null;
+            stopIterationCommand = null;
+            setCoordValueCommand = null;
+            iterateOneCommand = null;
+            worker.StopIteration();
+            worker.PropertyChanged -= ModelPropertyChanged;
+            model.PropertyChanged -= ModelPropertyChanged;
+            IsIterating = false;
+            Image2D = BitmapFactory.New(width, height);
+            model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
+            worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
+
         }
 
         private int CapStringNumber(string number, int maxNumber)
@@ -197,11 +221,11 @@ namespace Sandpiles3DWPF.ViewModel
 
         public void DrawSandpiles(Color[,] projection)
         {
-            using (image2D.GetBitmapContext())
+            using (Image2D.GetBitmapContext())
             {
-                for (int x = 0; x < image2D.Width; x++)
+                for (int x = 0; x < Image2D.Width; x++)
                 {
-                    for (int y = 0; y < image2D.Height; y++)
+                    for (int y = 0; y < Image2D.Height; y++)
                     {
                         Image2D.SetPixel(x, y, projection[x, y]);
                     }

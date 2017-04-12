@@ -54,6 +54,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -63,12 +64,13 @@
                     <Label Grid.Row="0" Grid.Column="0" x:Name="sizeXLabel" Content="X" />
                     <Label Grid.Row="1" Grid.Column="0" x:Name="sizeYLabel" Content="Y" />
                     <Label Grid.Row="2" Grid.Column="0" x:Name="sizeZLabel" Content="Z" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding SizeX, Mode=TwoWay}" />
-                    <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding SizeY, Mode=TwoWay}"  />
+                    <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding SizeX, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding SizeY, Mode=TwoWay}"/>
                     <TextBox Grid.Row="2" Grid.Column="1" Text = "{Binding SizeZ, Mode=TwoWay}"/>
+                    <Button Grid.Row="2" Grid.Column="2" Command="{Binding SetSizeCommand}" Content="Set size"/>
                 </Grid >
             </GroupBox>
-        
+
             <GroupBox Header="Quick menu" >
                 <Grid >
                     <Grid.ColumnDefinitions>
