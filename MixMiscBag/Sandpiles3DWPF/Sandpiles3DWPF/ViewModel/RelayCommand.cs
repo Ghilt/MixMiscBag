@@ -20,6 +20,8 @@ public class RelayCommand : ICommand
     readonly Action<object> _execute;
     readonly Predicate<object> _canExecute;
 
+    public string name { get; private set; }
+
     #endregion // Fields
 
     #region Constructors
@@ -45,6 +47,12 @@ public class RelayCommand : ICommand
 
         _execute = execute;
         _canExecute = canExecute;
+    }
+
+    public RelayCommand(string name, Action<object> execute)
+        : this(execute, null)
+    {
+        this.name = name;
     }
 
     #endregion // Constructors

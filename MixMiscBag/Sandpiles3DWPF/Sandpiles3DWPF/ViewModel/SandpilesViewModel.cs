@@ -43,8 +43,37 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(sizeX, sizeY, sizeZ), p => true);
+                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(sizeX, sizeY, sizeZ));
             }
+        }
+
+        private ICommand[] quickMenuCommand; // make this data fill a data grid later google datagrid
+        public ICommand[] QuickMenuCommand
+        {
+            get
+            {
+                return quickMenuCommand = quickMenuCommand ?? CreateQuickCommandList();
+            }
+        }
+
+        private ICommand[] CreateQuickCommandList()
+        {
+            return new ICommand[]{
+             new RelayCommand("Fill max",p => model.FillMax()),
+             new RelayCommand("Fill 7",p => model.Fill(7)),
+             new RelayCommand("Mid 7", p => model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 7)),
+             new RelayCommand("Mid 100", p => model.SetPosition(model.getMidX(), model.getMidY(), model.getMidZ(), 100)),
+             new RelayCommand("RGB 7", p => {
+                    model.FillValues(new bool[] { false, true, true }, new int[] { 0, (int)(model.height * 0.1), (int)(model.depth * 0.1) }, 7);
+                    model.FillValues(new bool[] { false, true, true }, new int[] { 0, (int)(model.height * 0.5), (int)(model.depth * 0.5) }, 7);
+                    model.FillValues(new bool[] { false, true, true }, new int[] { 0, (int)(model.height * 0.9), (int)(model.depth * 0.9) }, 7);
+             }),
+            new RelayCommand("Grid 7", p => {
+                    model.FillValues(new bool[] { false, true, true }, new int[] { 0, (int)(model.height * 0.1), (int)(model.depth * 0.1) }, 7);
+                    model.FillValues(new bool[] { false, true, true }, new int[] { 0, (int)(model.height * 0.9), (int)(model.depth * 0.3) }, 7);
+                    model.FillValues(new bool[] { true, false, true }, new int[] { (int)(model.width * 0.9), 0, (int)(model.depth * 0.7) }, 7);
+                    model.FillValues(new bool[] { true, false, true }, new int[] { (int)(model.width * 0.1), 0, (int)(model.depth * 0.9) }, 7);
+             })};
         }
 
         private bool xCoordEnabled = true;
@@ -100,9 +129,9 @@ namespace Sandpiles3DWPF.ViewModel
             get
             {
                 return setCoordValueCommand = setCoordValueCommand ?? new RelayCommand(p => model.FillValues(
-                    new bool[]{xCoordEnabled,yCoordEnabled,zCoordEnabled},
-                    new int[]{setXCoord, setYCoord, setZCoord}, 
-                    setCoordValue), p => true);
+                    new bool[] { xCoordEnabled, yCoordEnabled, zCoordEnabled },
+                    new int[] { setXCoord, setYCoord, setZCoord },
+                    setCoordValue));
             }
         }
 
@@ -135,7 +164,7 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                return startIterationCommand = startIterationCommand ?? new RelayCommand(p => { worker.StartIteration(); IsIterating = true; }, p => true);
+                return startIterationCommand = startIterationCommand ?? new RelayCommand(p => { worker.StartIteration(); IsIterating = true; });
             }
         }
 
@@ -144,7 +173,7 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                return stopIterationCommand = stopIterationCommand ?? new RelayCommand(p => worker.StopIteration(), p => true);
+                return stopIterationCommand = stopIterationCommand ?? new RelayCommand(p => worker.StopIteration());
             }
         }
 
@@ -153,7 +182,7 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                return iterateOneCommand = iterateOneCommand ?? new RelayCommand(p => worker.Iterate(), p => true);
+                return iterateOneCommand = iterateOneCommand ?? new RelayCommand(p => worker.Iterate());
             }
         }
 
@@ -168,7 +197,7 @@ namespace Sandpiles3DWPF.ViewModel
         {
             model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
             worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
-            
+
         }
 
         public void ReSize(int width, int height, int depth) // Find better way to reset to initial state

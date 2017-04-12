@@ -6,16 +6,21 @@
         <EventSetter Event="PreviewTextInput" Handler="NumbersOnlyTextBox"/>
         <Setter Property="Margin" Value="3,3,3,3" />
         <Setter Property="MinWidth" Value="50" />
+        <Setter Property="Background" Value="MintCream" />
     </Style>
 
     <Style TargetType="Button">
         <Setter Property="Margin" Value="3,3,3,3" />
         <Setter Property="Padding" Value="6,3" />
+        <Setter Property="BorderBrush" Value="#739969" />
+        <Setter Property="Background" Value="#dfecdc" />
+        
     </Style>
 
     <Style TargetType="GroupBox">
         <Setter Property="Width" Value="200" />
         <Setter Property="Margin" Value="10" />
+        <Setter Property="BorderBrush" Value="#739969" />
     </Style>
 
     <Style x:Key="TextAlignLeft" TargetType="CheckBox">

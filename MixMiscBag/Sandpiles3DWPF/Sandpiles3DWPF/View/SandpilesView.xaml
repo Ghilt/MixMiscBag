@@ -83,16 +83,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Button Grid.Row="0" Grid.Column="0"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="0" Grid.Column="1"  Command="{Binding StartIterationCommand}" Content="Fill 7"/>
-                    <Button Grid.Row="0" Grid.Column="2"  Command="{Binding StartIterationCommand}" Content="Fill 100"/>
-                    <Button Grid.Row="1" Grid.Column="0"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="1" Grid.Column="1"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="1" Grid.Column="2"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="2" Grid.Column="0"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="2" Grid.Column="1"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-                    <Button Grid.Row="2" Grid.Column="2"  Command="{Binding StartIterationCommand}" Content="Fill 6"/>
-
+                    <Button Grid.Row="0" Grid.Column="0"  Command="{Binding QuickMenuCommand[0]}"  Content="{Binding QuickMenuCommand[0], Converter={StaticResource commandNameConverter}}"/>
+                    <Button Grid.Row="0" Grid.Column="1"  Command="{Binding QuickMenuCommand[1]}"  Content="{Binding QuickMenuCommand[1], Converter={StaticResource commandNameConverter}}"/>
+                    <Button Grid.Row="0" Grid.Column="2"  Command="{Binding QuickMenuCommand[2]}"  Content="{Binding QuickMenuCommand[2], Converter={StaticResource commandNameConverter}}"/>
+                    <Button Grid.Row="1" Grid.Column="0"   Command="{Binding QuickMenuCommand[3]}"  Content="{Binding QuickMenuCommand[3], Converter={StaticResource commandNameConverter}}"/>
+                    <Button Grid.Row="1" Grid.Column="1"   Command="{Binding QuickMenuCommand[4]}"  Content="{Binding QuickMenuCommand[4], Converter={StaticResource commandNameConverter}}"/>
+                    <Button Grid.Row="1" Grid.Column="2"   Command="{Binding QuickMenuCommand[5]}"  Content="{Binding QuickMenuCommand[5], Converter={StaticResource commandNameConverter}}"/>
                 </Grid >
             </GroupBox>
 

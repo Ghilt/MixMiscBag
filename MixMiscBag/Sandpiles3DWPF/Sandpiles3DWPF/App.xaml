@@ -6,6 +6,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <Converters:CommandNameConverter x:Key="commandNameConverter"/>
             <Converters:InvertBoolConverter x:Key="invertBoolConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="StyleDictionary.xaml"/>
