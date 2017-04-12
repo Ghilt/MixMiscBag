@@ -38,6 +38,25 @@ namespace Sandpiles3DWPF.ViewModel
             set { sizeZ = Int32.Parse(value); OnPropertyChanged(); }
         }
 
+        private bool xCoordEnabled;
+        public bool XCoordEnabled
+        {
+            get { return xCoordEnabled; }
+            set { xCoordEnabled = value; OnPropertyChanged(); }
+        }
+        private bool yCoordEnabled;
+        public bool YCoordEnabled
+        {
+            get { return yCoordEnabled; }
+            set { yCoordEnabled = value; OnPropertyChanged(); }
+        }
+        private bool zCoordEnabled;
+        public bool ZCoordEnabled
+        {
+            get { return zCoordEnabled; }
+            set { zCoordEnabled = value; OnPropertyChanged(); }
+        }
+
         private int setXCoord;
         public string SetXCoord
         {
@@ -71,7 +90,10 @@ namespace Sandpiles3DWPF.ViewModel
         {
             get
             {
-                return setCoordValueCommand = setCoordValueCommand ?? new RelayCommand(p => model.SetPosition(setXCoord,setYCoord,setZCoord, setCoordValue), p => true);
+                return setCoordValueCommand = setCoordValueCommand ?? new RelayCommand(p => model.FillValues(
+                    new bool[]{xCoordEnabled,yCoordEnabled,zCoordEnabled},
+                    new int[]{setXCoord, setYCoord, setZCoord}, 
+                    setCoordValue), p => true);
             }
         }
 
