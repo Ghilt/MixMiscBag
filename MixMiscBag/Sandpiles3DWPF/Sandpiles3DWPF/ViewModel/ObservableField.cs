@@ -22,7 +22,9 @@ namespace Sandpiles3DWPF.ViewModel
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if(PropertyChanged != null){
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         internal int ToInt() // extract to subclass

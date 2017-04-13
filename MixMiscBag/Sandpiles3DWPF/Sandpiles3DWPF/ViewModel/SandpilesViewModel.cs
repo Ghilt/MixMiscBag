@@ -19,14 +19,14 @@ namespace Sandpiles3DWPF.ViewModel
 
         #region Size control
 
-        public ObservableField<string>[] SizeDim { get; set; }
+        public ObservableStringAccessor<int>[] SizeDim { get; set; }
 
         private ICommand setSizeCommand;
         public ICommand SetSizeCommand
         {
             get
             {
-                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(SizeDim[0].ToInt(), SizeDim[1].ToInt(), SizeDim[2].ToInt()));
+                return setSizeCommand = setSizeCommand ?? new RelayCommand(p => ReSize(SizeDim[0].Value, SizeDim[1].Value, SizeDim[2].Value));
             }
         }
 
@@ -66,46 +66,10 @@ namespace Sandpiles3DWPF.ViewModel
         #endregion //Quick
 
         #region Advanced settings control
-        
-        private bool xCoordEnabled = true;
-        public bool XCoordEnabled
-        {
-            get { return xCoordEnabled; }
-            set { xCoordEnabled = value; OnPropertyChanged(); }
-        }
-        private bool yCoordEnabled = true;
-        public bool YCoordEnabled
-        {
-            get { return yCoordEnabled; }
-            set { yCoordEnabled = value; OnPropertyChanged(); }
-        }
-        private bool zCoordEnabled = true;
-        public bool ZCoordEnabled
-        {
-            get { return zCoordEnabled; }
-            set { zCoordEnabled = value; OnPropertyChanged(); }
-        }
 
-        private int setXCoord;
-        public string SetXCoord
-        {
-            get { return "" + setXCoord; }
-            set { setXCoord = CapStringNumber(value, SizeDim[0].ToInt()); OnPropertyChanged(); }
-        }
+        public ObservableField<bool>[] CoordEnabled { get; set; }
 
-        private int setYCoord;
-        public string SetYCoord
-        {
-            get { return "" + setYCoord; }
-            set { setYCoord = CapStringNumber(value, SizeDim[1].ToInt()); OnPropertyChanged(); }
-        }
-
-        private int setZCoord;
-        public string SetZCoord
-        {
-            get { return "" + setZCoord; }
-            set { setZCoord = CapStringNumber(value, SizeDim[2].ToInt()); OnPropertyChanged(); }
-        }
+        public ObservableStringAccessor<int>[] CoordPosition { get; set; }
 
         private int setCoordValue;
         public string SetCoordValue
@@ -120,8 +84,8 @@ namespace Sandpiles3DWPF.ViewModel
             get
             {
                 return setCoordValueCommand = setCoordValueCommand ?? new RelayCommand(p => model.FillValues(
-                    new bool[] { xCoordEnabled, yCoordEnabled, zCoordEnabled },
-                    new int[] { setXCoord, setYCoord, setZCoord },
+                    new bool[] { CoordEnabled[0].Value, CoordEnabled[1].Value, CoordEnabled[2].Value },
+                    new int[] { CoordPosition[0].Value, CoordPosition[1].Value, CoordPosition[2].Value },
                     setCoordValue));
             }
         }
@@ -196,7 +160,14 @@ namespace Sandpiles3DWPF.ViewModel
 
         public SandpilesViewModel()
         {
-            SizeDim = ObservableField<string>.CreateFields(3);
+            SizeDim = ObservableStringAccessor<int>.CreateFields(x => Int32.Parse(x), 3);
+            CoordPosition = new ObservableStringAccessor<int>[3];
+            for (int i = 0; i < CoordPosition.Length; i++)
+            {
+                var localVariable = i; // Asked a question about this https://stackoverflow.com/questions/43388174/c-sharp-value-sent-to-func-not-peristant-c-sharp-iife-equivalent
+                CoordPosition[i] = new ObservableStringAccessor<int>(x => CapStringNumber(x, localVariable));
+            }
+            CoordEnabled = ObservableField<bool>.CreateFields(3);
         }
 
         public void LoadSandpiles(int width, int height, int depth)
@@ -223,8 +194,9 @@ namespace Sandpiles3DWPF.ViewModel
 
         }
 
-        private int CapStringNumber(string number, int maxNumber)
+        private int CapStringNumber(string number, int sizePosition)
         {
+            int maxNumber = SizeDim[sizePosition].Value;
             return Int32.Parse(number) >= maxNumber ? maxNumber - 1 : Int32.Parse(number);
         }
 
@@ -234,9 +206,9 @@ namespace Sandpiles3DWPF.ViewModel
             if (null != sender as SandpilesCalculator)
             {
                 SandpilesCalculator m = sender as SandpilesCalculator;
-                SizeDim[0].Value = "" + m.width;
-                SizeDim[1].Value = "" + m.height;
-                SizeDim[2].Value = "" + m.depth;
+                SizeDim[0].Value = m.width;
+                SizeDim[1].Value = m.height;
+                SizeDim[2].Value = m.depth;
             }
             else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_ITERATION_FINISHED)
             {

@@ -109,13 +109,13 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <CheckBox Grid.Row="0" Grid.Column="0" Content="X" IsChecked="{Binding XCoordEnabled, Mode=TwoWay}"/>
-                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Y" IsChecked="{Binding YCoordEnabled, Mode=TwoWay}"/>
-                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Z" IsChecked="{Binding ZCoordEnabled, Mode=TwoWay}"/>
+                    <CheckBox Grid.Row="0" Grid.Column="0" Content="X" IsChecked="{Binding CoordEnabled[0].Value, Mode=TwoWay}"/>
+                    <CheckBox Grid.Row="1" Grid.Column="0" Content="Y" IsChecked="{Binding CoordEnabled[1].Value, Mode=TwoWay}"/>
+                    <CheckBox Grid.Row="2" Grid.Column="0" Content="Z" IsChecked="{Binding CoordEnabled[2].Value, Mode=TwoWay}"/>
                     <Label Grid.Row="3" Grid.Column="0" Content="Value" />
-                    <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding SetXCoord, Mode=TwoWay}"/>
-                    <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding SetYCoord, Mode=TwoWay}"/>
-                    <TextBox Grid.Row="2" Grid.Column="1" Text = "{Binding SetZCoord, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" Text = "{Binding CoordPosition[0].StringValue, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Text = "{Binding CoordPosition[1].StringValue, Mode=TwoWay}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Text = "{Binding CoordPosition[2].StringValue, Mode=TwoWay}"/>
                     <TextBox Grid.Row="3" Grid.Column="1" Text = "{Binding SetCoordValue, Mode=TwoWay}"/>
                     <Button Grid.Row="3" Grid.Column="2" Command="{Binding SetCoordValueCommand}" Content="Set value"/>
                 </Grid >

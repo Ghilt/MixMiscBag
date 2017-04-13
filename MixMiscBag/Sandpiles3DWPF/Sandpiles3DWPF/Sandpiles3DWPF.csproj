@@ -65,6 +65,7 @@
     <Compile Include="StyleDictionary.xaml.cs">
       <DependentUpon>StyleDictionary.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\ObservableStringAccessor.cs" />
     <Compile Include="ViewModel\ObservableField.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SandpilesViewModel.cs" />
