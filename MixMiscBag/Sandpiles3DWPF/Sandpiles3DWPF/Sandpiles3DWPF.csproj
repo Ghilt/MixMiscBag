@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\EnumBoolConverter.cs" />
     <Compile Include="Converters\CommandNameConverter.cs" />
     <Compile Include="Model\BackgroundSandpilesWorker.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />

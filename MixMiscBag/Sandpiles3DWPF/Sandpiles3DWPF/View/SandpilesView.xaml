@@ -27,23 +27,17 @@
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <GroupBox  Header="Visualization" >
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <RadioButton Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True" />
-                    <RadioButton Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <RadioButton Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False" />
-                    <Label Grid.Row="0" Grid.Column="1" Content="Flatten" />
-                    <Label Grid.Row="1" Grid.Column="1" Content="Cross section" />
-                    <Label Grid.Row="2" Grid.Column="1" Content="3D" IsEnabled="False" />
-                </Grid >
+                <StackPanel Orientation="Vertical" >
+                    <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="Flatten" 
+                                 IsChecked="{Binding Visualization, Converter={StaticResource enumBoolConverter}, ConverterParameter=Flatten}"                  
+                                 Command="{Binding VisualizationChangedCommand}"/>
+                    <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="Cross section" 
+                                 IsChecked="{Binding Visualization, Converter={StaticResource enumBoolConverter}, ConverterParameter=CrossSection}"                  
+                                 Command="{Binding VisualizationChangedCommand}"/>
+                    <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="3D" IsEnabled="false"
+                                 IsChecked="{Binding Visualization, Converter={StaticResource enumBoolConverter}, ConverterParameter=ThreeDimensions}"
+                                 Command="{Binding VisualizationChangedCommand}"/>
+                </StackPanel >
             </GroupBox>
 
             <GroupBox  Header="Size" >

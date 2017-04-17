@@ -17,6 +17,31 @@ namespace Sandpiles3DWPF.ViewModel
         private SandpilesCalculator model;
         private BackgroundSandpilesWorker worker;
 
+        #region Visualization control
+
+        public enum VisualizationMode
+        {
+            Flatten, CrossSection, ThreeDimensions
+        }
+
+        private VisualizationMode visualization;
+        public VisualizationMode Visualization
+        {
+            get { return visualization; }
+            set { visualization = value; OnPropertyChanged(); }
+        }
+
+        private ICommand visualizationChangedCommand;
+        public ICommand VisualizationChangedCommand
+        {
+            get
+            {
+                return visualizationChangedCommand = visualizationChangedCommand ?? new RelayCommand(p => worker.SetVisualizationMode(visualization));
+            }
+        }
+
+        #endregion //Visualization
+
         #region Size control
 
         public ObservableStringAccessor<int>[] SizeDim { get; set; }
@@ -65,7 +90,7 @@ namespace Sandpiles3DWPF.ViewModel
 
         #endregion //Quick
 
-        #region Advanced settings control
+        #region Advanced set value control
 
         public ObservableField<bool>[] CoordEnabled { get; set; }
 
@@ -129,7 +154,7 @@ namespace Sandpiles3DWPF.ViewModel
         }
 
         #endregion // iteration
-
+      
         #region Render control
 
         private WriteableBitmap image2D;

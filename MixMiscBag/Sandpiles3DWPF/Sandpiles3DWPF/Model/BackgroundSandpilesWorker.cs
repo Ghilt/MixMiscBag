@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static Sandpiles3DWPF.ViewModel.SandpilesViewModel;
 
 namespace Sandpiles3DWPF.Model
 {
@@ -15,7 +16,8 @@ namespace Sandpiles3DWPF.Model
 
         public event PropertyChangedEventHandler PropertyChanged;
         private SandpilesCalculator model;
-        BackgroundWorker bw;
+        private BackgroundWorker bw;
+        private VisualizationMode vizualisationMode;
         public long lastIterationDuration { get; private set; }
         public SandpilesIterationData iterationData { get; private set; }
 
@@ -68,7 +70,7 @@ namespace Sandpiles3DWPF.Model
                 model.Iterate();
                 watch.Stop();
                 lastIterationDuration = watch.ElapsedMilliseconds;
-                worker.ReportProgress(0, model.Get2DProjection());
+                worker.ReportProgress(0, getIterationReturnData());
                 if (lastIterationDuration < 20 && model.IsStable())
                 {
                     System.Threading.Thread.Sleep(100);
@@ -77,6 +79,21 @@ namespace Sandpiles3DWPF.Model
             OnPropertyChanged(PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED);
             workerStoppedClearCallbacks();
             e.Cancel = true; // what does this do?
+        }
+
+        private SandpilesIterationData getIterationReturnData()
+        {
+            switch (vizualisationMode)
+            {
+                case VisualizationMode.Flatten:
+                    return model.Get2DProjection();
+                case VisualizationMode.CrossSection:
+                    return model.GetCrossSection(model.getMidZ(), false, false, true);
+                case VisualizationMode.ThreeDimensions:
+                    return null;
+                default:
+                    return null;
+            }
         }
 
         private void workerStoppedClearCallbacks()
@@ -101,10 +118,15 @@ namespace Sandpiles3DWPF.Model
             OnPropertyChanged(PROPERTY_CHANGED_ITERATION_FINISHED);
         }
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "") 
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             //invoke if not null
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetVisualizationMode(VisualizationMode mode)
+        {
+            vizualisationMode = mode;
         }
     }
 }

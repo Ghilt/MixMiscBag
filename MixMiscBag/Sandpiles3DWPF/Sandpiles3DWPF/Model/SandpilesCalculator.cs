@@ -124,7 +124,19 @@ namespace Sandpiles3DWPF.Model
             delta[x, y, z]++;
         }
 
-        public int[,] GetCrossSection(int position, bool xDim, bool yDim, bool zDim)
+        // Redo this
+        private static readonly Dictionary<int, Color> heightMap = new Dictionary<int, Color>{ 
+            { 0, Colors.SlateGray},
+            { 1, Colors.Coral},
+            { 2, Colors.AliceBlue},
+            { 3, Colors.DarkSeaGreen},
+            { 4, Colors.Red},
+            { 5, Colors.Violet},
+            { 6, Colors.Olive},
+            { 7, Colors.White}
+        };
+
+        internal SandpilesIterationData GetCrossSection(int position, bool xDim, bool yDim, bool zDim) //Posted http://stackoverflow.com/questions/43272390/how-to-get-cross-section-of-3-dimensional-array-c-sharp
         {
             if ((xDim ? 1 : 0) + (yDim ? 1 : 0) + (zDim ? 1 : 0) > 1)
             {
@@ -132,15 +144,7 @@ namespace Sandpiles3DWPF.Model
             }
             else if (xDim)
             {
-                int[,] crossSection = new int[height, depth];
-                for (int y = 0; y < height; y++)
-                {
-                    for (int z = 0; z < depth; z++)
-                    {
-                        crossSection[y, z] = space[position, y, z];
-                    }
-                }
-                return crossSection;
+                throw new NotImplementedException();
             }
             else if (yDim)
             {
@@ -148,7 +152,17 @@ namespace Sandpiles3DWPF.Model
             }
             else if (zDim)
             {
-                throw new NotImplementedException();
+                Color[,] crossSection = new Color[width, height];
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        var val = space[x, y, position];
+                        val = val < 0 ? 0 : val; // values are not negative unless model values are changed(decreased) in the middle of an iteration, 
+                        crossSection[x, y] = val < heightMap.Count ? heightMap[val] : heightMap[heightMap.Count-1];
+                    }
+                }
+                return new SandpilesIterationData(iterationCounter, crossSection);
             }
             else
             {
