@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -40,12 +41,14 @@ namespace Sandpiles3DWPF.ViewModel
             return default(T);
         }
 
-        internal static ObservableField<T>[] CreateFields(int count)
+        internal static ObservableField<T>[] CreateFields(int count, Action propertyUpdate)
         {
-            ObservableField<T>[] ret = new ObservableField<T>[count];
+           ObservableField <T>[] ret = new ObservableField<T>[count];
             for (int i = 0; i < count; i++ )
             {
-                ret[i] = new ObservableField<T>();
+                ObservableField<T> field = new ObservableField<T>(); 
+                field.PropertyChanged += (x, y) => propertyUpdate.Invoke();
+                ret[i] = field;
             }
             return ret;
         }

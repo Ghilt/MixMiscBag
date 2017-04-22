@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <Converters:CommandNameConverter x:Key="commandNameConverter"/>
             <Converters:InvertBoolConverter x:Key="invertBoolConverter"/>
+            <Converters:CoordEnabledAidConverter x:Key="coordEnabledScaleConverter"/>
             <Converters:EnumBoolConverter x:Key="enumBoolConverter"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="StyleDictionary.xaml"/>

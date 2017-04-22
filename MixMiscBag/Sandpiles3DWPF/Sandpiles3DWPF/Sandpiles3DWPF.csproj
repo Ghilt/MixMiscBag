@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\EnumBoolConverter.cs" />
     <Compile Include="Converters\CommandNameConverter.cs" />
+    <Compile Include="Converters\CoordEnabledAidConverter.cs" />
     <Compile Include="Model\BackgroundSandpilesWorker.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="StyleDictionary.xaml.cs">
@@ -70,6 +71,9 @@
     <Compile Include="ViewModel\ObservableField.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\SandpilesViewModel.cs" />
+    <Compile Include="View\CoordinateGuide.xaml.cs">
+      <DependentUpon>CoordinateGuide.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SandpilesView.xaml.cs">
       <DependentUpon>SandpilesView.xaml</DependentUpon>
     </Compile>
@@ -86,6 +90,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="StyleDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CoordinateGuide.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

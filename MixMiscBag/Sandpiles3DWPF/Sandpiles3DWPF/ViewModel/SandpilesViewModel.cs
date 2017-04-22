@@ -192,7 +192,9 @@ namespace Sandpiles3DWPF.ViewModel
                 var localVariable = i; // Asked a question about this https://stackoverflow.com/questions/43388174/c-sharp-value-sent-to-func-not-peristant-c-sharp-iife-equivalent
                 CoordPosition[i] = new ObservableStringAccessor<int>(x => CapStringNumber(x, localVariable));
             }
-            CoordEnabled = ObservableField<bool>.CreateFields(3);
+            string notifyListOnItemChanged = nameof(CoordEnabled);
+            CoordEnabled = ObservableField<bool>.CreateFields(3, () => OnPropertyChanged(notifyListOnItemChanged));
+
         }
 
         public void LoadSandpiles(int width, int height, int depth)
@@ -219,10 +221,12 @@ namespace Sandpiles3DWPF.ViewModel
 
         }
 
-        private int CapStringNumber(string number, int sizePosition)
+        private int CapStringNumber(string numberString, int sizePosition)
         {
+            int number;
+            Int32.TryParse(numberString, out number);
             int maxNumber = SizeDim[sizePosition].Value;
-            return Int32.Parse(number) >= maxNumber ? maxNumber - 1 : Int32.Parse(number);
+            return number >= maxNumber ? maxNumber - 1 : number;
         }
 
         private void ModelPropertyChanged(object sender, PropertyChangedEventArgs e) // TODO not sure if this is correct, may be missing all the value of mvvm. Something in me wanna connect the bound fields more directly to the fields in the model, with no backing fields for the accessors
