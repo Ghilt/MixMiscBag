@@ -57,7 +57,7 @@ namespace Sandpiles3DWPF.Model
             model.Iterate();
             watch.Stop();
             lastIterationDuration = watch.ElapsedMilliseconds;
-            e.Result = model.Get2DProjection();
+            e.Result = getIterationReturnData();
         }
 
         private void PerformContinousIteration(object sender, DoWorkEventArgs e)

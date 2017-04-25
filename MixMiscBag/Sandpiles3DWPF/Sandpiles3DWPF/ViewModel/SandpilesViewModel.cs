@@ -201,7 +201,6 @@ namespace Sandpiles3DWPF.ViewModel
         {
             model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
             worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
-
         }
 
         public void ReSize(int width, int height, int depth) // Find better way to reset to initial state
@@ -257,7 +256,7 @@ namespace Sandpiles3DWPF.ViewModel
 
         public void DrawSandpiles(Color[,] projection)
         {
-            using (Image2D.GetBitmapContext())
+            using (Image2D.GetBitmapContext()) //Is this using doing something?
             {
                 for (int x = 0; x < Image2D.Width; x++)
                 {

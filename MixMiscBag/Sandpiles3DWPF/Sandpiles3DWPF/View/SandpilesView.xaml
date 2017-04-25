@@ -17,7 +17,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Width="500" Height="500"/>
+        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Width="500" Height="500" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" >
             <Label Content="Iteration:" />
             <TextBox Text = "{Binding NumberOfIterations, Mode=OneWay}" Height="18"  Width="64"/>
