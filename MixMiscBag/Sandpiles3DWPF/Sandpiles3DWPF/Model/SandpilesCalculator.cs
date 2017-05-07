@@ -136,6 +136,11 @@ namespace Sandpiles3DWPF.Model
             { 7, Colors.White}
         };
 
+        internal SandpilesIterationData GetBinary3DRepresentation()
+        {
+            return new SandpilesIterationData(iterationCounter, delta);
+        }
+
         internal SandpilesIterationData GetCrossSection(int position, bool xDim, bool yDim, bool zDim) //Posted http://stackoverflow.com/questions/43272390/how-to-get-cross-section-of-3-dimensional-array-c-sharp
         {
             if ((xDim ? 1 : 0) + (yDim ? 1 : 0) + (zDim ? 1 : 0) > 1)

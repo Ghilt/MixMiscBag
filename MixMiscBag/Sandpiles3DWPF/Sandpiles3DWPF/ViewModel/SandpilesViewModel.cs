@@ -1,12 +1,18 @@
-﻿using Sandpiles3DWPF.Model;
+﻿using Sandpiles3DWPF.Extensions;
+using Sandpiles3DWPF.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
+using System.Windows.Threading;
 
 namespace Sandpiles3DWPF.ViewModel
 {
@@ -118,7 +124,7 @@ namespace Sandpiles3DWPF.ViewModel
         #endregion //Advanced
 
         #region Iteration control
-        
+
         private ICommand startIterationCommand;
         public ICommand StartIterationCommand
         {
@@ -154,7 +160,7 @@ namespace Sandpiles3DWPF.ViewModel
         }
 
         #endregion // iteration
-      
+
         #region Render control
 
         private WriteableBitmap image2D;
@@ -181,6 +187,34 @@ namespace Sandpiles3DWPF.ViewModel
             set { numberOfIterations = Int32.Parse(value); OnPropertyChanged(); }
         }
 
+        private int rotation3DRender;
+        public int Rotation3DRender
+        {
+            get { return rotation3DRender; }
+            set { rotation3DRender = value; OnPropertyChanged(); rotate3DRepresentaition(Render3D, value); }
+        }
+
+        private CubeGrid render3D;
+
+        public CubeGrid Render3D
+        {
+            get
+            {
+                return render3D;
+            }
+            set { render3D = value; OnPropertyChanged(); }
+        }
+
+        private void rotate3DRepresentaition(CubeGrid grid, int value)
+        {
+            RotateTransform3D myRotateTransform3D = new RotateTransform3D();
+            AxisAngleRotation3D myAxisAngleRotation3d = new AxisAngleRotation3D();
+            myAxisAngleRotation3d.Axis = new Vector3D(1, 2, 3); //temporary debug 
+            myAxisAngleRotation3d.Angle = value;
+            myRotateTransform3D.Rotation = myAxisAngleRotation3d;
+            grid.Grid.Transform = myRotateTransform3D;
+        }
+
         #endregion // render
 
         public SandpilesViewModel()
@@ -199,12 +233,17 @@ namespace Sandpiles3DWPF.ViewModel
 
         public void LoadSandpiles(int width, int height, int depth)
         {
+            System.Diagnostics.Debug.WriteLine("Loading sandpiles: width(" + width + "), height(" + height + "), depth(" + depth + ")");
             model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
-            worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
+            worker = new BackgroundSandpilesWorker(visualization, ModelPropertyChanged, model);
+            Create3DGridInBackground(width, height, depth);
         }
 
         public void ReSize(int width, int height, int depth) // Find better way to reset to initial state
         {
+            //Process.Start(Application.ResourceAssembly.Location, width + "," + height + "," + depth);
+            //System.Windows.Application.Current.Shutdown();
+            visualizationChangedCommand = null;
             setSizeCommand = null;
             startIterationCommand = null;
             stopIterationCommand = null;
@@ -215,9 +254,31 @@ namespace Sandpiles3DWPF.ViewModel
             model.PropertyChanged -= ModelPropertyChanged;
             IsIterating = false;
             Image2D = BitmapFactory.New(width, height);
-            model = new SandpilesCalculator(ModelPropertyChanged, width, height, depth);
-            worker = new BackgroundSandpilesWorker(ModelPropertyChanged, model);
+            LoadSandpiles(width, height, depth);
+        }
 
+        private void Create3DGridInBackground(int width, int height, int depth)
+        {
+            BackgroundWorker w = new BackgroundWorker();
+            w.DoWork += SetUp3DGrid;
+            w.RunWorkerCompleted += SetUp3DGridComplete;
+            w.RunWorkerAsync(Tuple.Create(width, height, depth));
+        }
+
+        private void SetUp3DGrid(object sender, DoWorkEventArgs e)
+        {
+            Tuple<Int32, Int32, Int32> dimensions = e.Argument as Tuple<Int32, Int32, Int32>;
+            CubeGrid g = new CubeGrid(dimensions.Item1, dimensions.Item2, dimensions.Item3);
+            g.Initiate();
+            g.Freeze();
+            e.Result = g;
+        }
+
+        private void SetUp3DGridComplete(object sender, RunWorkerCompletedEventArgs e)
+        {
+            CubeGrid g = e.Result as CubeGrid;
+            g.Unfreeze();
+            Render3D = g;
         }
 
         private int CapStringNumber(string numberString, int sizePosition)
@@ -243,10 +304,7 @@ namespace Sandpiles3DWPF.ViewModel
                 BackgroundSandpilesWorker w = sender as BackgroundSandpilesWorker;
                 IterationDuration = "" + w.lastIterationDuration;
                 NumberOfIterations = "" + w.iterationData.iteration;
-                if (Application.Current != null)
-                {
-                    Application.Current.Dispatcher.Invoke(() => DrawSandpiles(w.iterationData.dim2Projection)); // run on UI-thread
-                }
+                DrawSandpiles(w.iterationData);
             }
             else if (triggerMethod == BackgroundSandpilesWorker.PROPERTY_CHANGED_CONTINUOUS_ITERATION_STOPPED)
             {
@@ -254,7 +312,39 @@ namespace Sandpiles3DWPF.ViewModel
             }
         }
 
-        public void DrawSandpiles(Color[,] projection)
+        public void DrawSandpiles(SandpilesIterationData data)
+        {
+            Dispatcher dispatcher = Dispatcher.FromThread(Thread.CurrentThread); // run on UI-thread
+            if (data.data3D != null)
+            {
+                if (dispatcher != null && dispatcher.CheckAccess())
+                {
+                    Update3DRender(data.data3D);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() => Update3DRender(data.data3D));
+                }
+            }
+            else if (data.dim2Projection != null)
+            {
+                if (dispatcher != null && dispatcher.CheckAccess())
+                {
+                    Update2DRender(data.dim2Projection);
+                }
+                else
+                {
+                    Application.Current.Dispatcher.Invoke(() => Update2DRender(data.dim2Projection));
+                }
+            }
+        }
+
+        private void Update3DRender(int[,,] data3D)
+        {
+            render3D.Update(data3D);
+        }
+
+        private void Update2DRender(Color[,] projection)
         {
             using (Image2D.GetBitmapContext()) //Is this using doing something?
             {
@@ -266,16 +356,14 @@ namespace Sandpiles3DWPF.ViewModel
                     }
                 }
             }
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

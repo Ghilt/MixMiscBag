@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Sandpiles3DWPF.ViewModel;
 using static Sandpiles3DWPF.ViewModel.SandpilesViewModel;
 
 namespace Sandpiles3DWPF.Model
@@ -17,19 +18,22 @@ namespace Sandpiles3DWPF.Model
         public event PropertyChangedEventHandler PropertyChanged;
         private SandpilesCalculator model;
         private BackgroundWorker bw;
-        private VisualizationMode vizualisationMode;
+        private VisualizationMode visualizationMode;
+
         public long lastIterationDuration { get; private set; }
         public SandpilesIterationData iterationData { get; private set; }
 
-        public BackgroundSandpilesWorker(PropertyChangedEventHandler propertyChangedListener, SandpilesCalculator model)
+        public BackgroundSandpilesWorker(VisualizationMode visualizationMode, PropertyChangedEventHandler propertyChangedListener, SandpilesCalculator model)
         {
             this.model = model;
+            this.visualizationMode = visualizationMode;
             bw = new BackgroundWorker();
             bw.WorkerReportsProgress = true;
             bw.WorkerSupportsCancellation = true;
 
             PropertyChanged += propertyChangedListener;
         }
+
 
         internal void Iterate()
         {
@@ -83,14 +87,14 @@ namespace Sandpiles3DWPF.Model
 
         private SandpilesIterationData getIterationReturnData()
         {
-            switch (vizualisationMode)
+            switch (visualizationMode)
             {
                 case VisualizationMode.Flatten:
                     return model.Get2DProjection();
                 case VisualizationMode.CrossSection:
                     return model.GetCrossSection(model.getMidZ(), false, false, true);
                 case VisualizationMode.ThreeDimensions:
-                    return null;
+                    return model.GetBinary3DRepresentation();
                 default:
                     return null;
             }
@@ -126,7 +130,7 @@ namespace Sandpiles3DWPF.Model
 
         public void SetVisualizationMode(VisualizationMode mode)
         {
-            vizualisationMode = mode;
+            visualizationMode = mode;
         }
     }
 }

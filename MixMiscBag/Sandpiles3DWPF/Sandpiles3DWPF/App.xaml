@@ -6,6 +6,15 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
+            <Converters:ValueConverterGroup x:Key="enumToBoolToVisibilityConverter">
+                <Converters:EnumBoolConverter/>
+                <BooleanToVisibilityConverter/>
+            </Converters:ValueConverterGroup>
+            <Converters:ValueConverterGroup x:Key="enumToInvertBoolToVisibilityConverter">
+                <Converters:EnumBoolConverter/>
+                <Converters:InvertBoolConverter/>
+                <BooleanToVisibilityConverter/>
+            </Converters:ValueConverterGroup>
             <Converters:CommandNameConverter x:Key="commandNameConverter"/>
             <Converters:InvertBoolConverter x:Key="invertBoolConverter"/>
             <Converters:CoordEnabledAidConverter x:Key="coordEnabledScaleConverter"/>

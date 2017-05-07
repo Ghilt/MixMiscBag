@@ -10,6 +10,7 @@ using System.Windows.Data;
 
 namespace Sandpiles3DWPF.ViewModel
 {
+    //Todo remove entire class and replace with ValueConverter
     /* Hosts two observable fields reflecting the same value */
     public class ObservableStringAccessor<T> : INotifyPropertyChanged
     {

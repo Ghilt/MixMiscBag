@@ -16,9 +16,36 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
+        <GroupBox  Header="Render" Width="500" Height="500" Grid.Column="1" Grid.Row="0"  >
+            <StackPanel>
 
-        <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}" Grid.Column="1" Grid.Row="0" Width="500" Height="500" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Orientation="Horizontal" >
+                <Viewport3D  Width="500" Height="500" 
+                             Visibility="{Binding Visualization, Converter={StaticResource enumToBoolToVisibilityConverter}, ConverterParameter=ThreeDimensions}">
+                    <Viewport3D.Camera>
+                        <PerspectiveCamera Position="0,0,100" LookDirection="0,0,-1" FieldOfView="60" />
+                    </Viewport3D.Camera>
+
+                    <Viewport3D.Children>
+                        <ModelVisual3D >
+                            <ModelVisual3D.Content>
+                                <Model3DGroup>
+                                    <DirectionalLight Color="White" Direction="-1,-1,-3" />
+                                    <DirectionalLight Color="White" Direction="1,1,3" />
+                                </Model3DGroup>
+                            </ModelVisual3D.Content>
+                        </ModelVisual3D >
+
+                        <ModelVisual3D   Content="{Binding Render3D.Grid}"/>
+                    </Viewport3D.Children>
+                </Viewport3D>
+
+                <Image x:Name="RenderArea" Source = "{Binding Image2D, Mode=OneWay}" RenderOptions.BitmapScalingMode="NearestNeighbor"
+                   Visibility="{Binding Visualization, Converter={StaticResource enumToInvertBoolToVisibilityConverter}, ConverterParameter=ThreeDimensions}"/>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Orientation="Horizontal" HorizontalAlignment="Right" >
+            <Slider Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" Value="{Binding Rotation3DRender}" Width="128" Maximum="360" Minimum="-360" />
             <Label Content="Iteration:" />
             <TextBox Text = "{Binding NumberOfIterations, Mode=OneWay}" Height="18"  Width="64"/>
             <Label Content=" Duration:" />
@@ -26,6 +53,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+            <!--https://ovpwp.wordpress.com/2010/06/12/it-is-dangerous-to-bind-radio-buttons-to-an-enumeration-with-valueconverter/-->
             <GroupBox  Header="Visualization" >
                 <StackPanel Orientation="Vertical" >
                     <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="Flatten" 
@@ -34,7 +62,7 @@
                     <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="Cross section" 
                                  IsChecked="{Binding Visualization, Converter={StaticResource enumBoolConverter}, ConverterParameter=CrossSection}"                  
                                  Command="{Binding VisualizationChangedCommand}"/>
-                    <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="3D" IsEnabled="false"
+                    <RadioButton GroupName="Visualization" HorizontalAlignment="Left" Content="3D"
                                  IsChecked="{Binding Visualization, Converter={StaticResource enumBoolConverter}, ConverterParameter=ThreeDimensions}"
                                  Command="{Binding VisualizationChangedCommand}"/>
                 </StackPanel >
@@ -96,7 +124,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/> <!-- this column drags front label to the right-->
+                        <ColumnDefinition Width="10"/>
+                        <!-- this column drags front label to the right-->
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
