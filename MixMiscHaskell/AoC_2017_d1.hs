@@ -6,6 +6,8 @@ foldItLooped (first, accumulator, (a:b:etc)) = let aInt = digitToInt a
                                                    bInt = digitToInt b
                                                in if aInt == bInt then foldItLooped (first, (accumulator + aInt), b:etc) else foldItLooped (first, accumulator, b:etc)
 
+-- // Part 2 \\ --
+
 transform :: [Int] -> [(Int, Int)]
 transform s = mapWithIndex (getIntLooped s) s
 
